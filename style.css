@@ -233,39 +233,48 @@ button:hover {
     flex-direction: column;
     vertical-align: middle;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.85em;
+    line-height: 1.1;
+    margin: 0 0.2em;
 }
 
 .fraction span:first-child {
-    border-bottom: 1px solid currentColor;
-    padding: 0 5px;
+    border-bottom: 1.5px solid currentColor;
+    padding: 0 0.3em 0.1em 0.3em;
 }
 
 .fraction span:last-child {
-    padding: 0 5px;
+    padding: 0.1em 0.3em 0 0.3em;
 }
 
 /* Root and Table Fraction Style */
 .sqrt {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-start;
     vertical-align: middle;
+    position: relative;
+    margin-top: 0.1em;
 }
 
 .sqrt-symbol {
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin-right: -1px;
+    line-height: 1;
+    font-family: 'Arial', sans-serif;
 }
 
 .sqrt-content {
-    border-top: 1px solid currentColor;
+    border-top: 1.5px solid currentColor;
     padding-top: 1px;
+    line-height: 1;
+    margin-top: 0.15em;
 }
 
 td .value {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-height: 2.5em; /* 셀 높이 균일화 */
 }
 
 footer {
