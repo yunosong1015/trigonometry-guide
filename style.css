@@ -233,48 +233,50 @@ button:hover {
     flex-direction: column;
     vertical-align: middle;
     text-align: center;
-    font-size: 0.85em;
-    line-height: 1.1;
-    margin: 0 0.2em;
+    font-size: 0.9em;
+    margin: 0 0.1em;
 }
 
-.fraction span:first-child {
-    border-bottom: 1.5px solid currentColor;
-    padding: 0 0.3em 0.1em 0.3em;
+.numerator {
+    border-bottom: 1px solid currentColor;
+    padding: 0 2px;
+    line-height: 1.2;
 }
 
-.fraction span:last-child {
-    padding: 0.1em 0.3em 0 0.3em;
+.denominator {
+    padding: 0 2px;
+    line-height: 1.2;
 }
 
-/* Root and Table Fraction Style */
+/* 개선된 루트 스타일 */
 .sqrt {
     display: inline-flex;
-    align-items: flex-start;
+    align-items: center;
     vertical-align: middle;
-    position: relative;
-    margin-top: 0.1em;
 }
 
 .sqrt-symbol {
-    font-size: 1.1em;
-    margin-right: -1px;
-    line-height: 1;
-    font-family: 'Arial', sans-serif;
+    font-size: 1.2em;
+    font-family: 'Times New Roman', serif;
+    margin-right: -2px;
+    transform: translateY(1px); /* 루트 기호 미세 조정 */
 }
 
 .sqrt-content {
-    border-top: 1.5px solid currentColor;
-    padding-top: 1px;
+    border-top: 1px solid currentColor;
+    padding: 2px 2px 0 2px;
     line-height: 1;
-    margin-top: 0.15em;
+    display: inline-block;
 }
 
 td .value {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.5em; /* 셀 높이 균일화 */
+    min-height: 3.5rem; /* 셀 안에서 수식이 여유롭게 배치되도록 설정 */
+    font-family: 'Times New Roman', serif; /* 수식다운 서체 적용 */
+    font-style: italic;
+    font-size: 1.1rem;
 }
 
 footer {
