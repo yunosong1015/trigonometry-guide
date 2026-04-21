@@ -183,6 +183,31 @@ button:hover {
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
+.card p {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.fraction {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.fraction span:first-child {
+    border-bottom: 1px solid currentColor;
+    padding: 0 5px;
+}
+
+.fraction span:last-child {
+    padding: 0 5px;
+}
+
 footer {
     text-align: center;
     padding: 2rem;
