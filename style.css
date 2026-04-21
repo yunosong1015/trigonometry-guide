@@ -245,6 +245,29 @@ button:hover {
     padding: 0 5px;
 }
 
+/* Root and Table Fraction Style */
+.sqrt {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.sqrt-symbol {
+    font-size: 1.2em;
+    margin-right: -1px;
+}
+
+.sqrt-content {
+    border-top: 1px solid currentColor;
+    padding-top: 1px;
+}
+
+td .value {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 footer {
     text-align: center;
     padding: 2rem;
