@@ -48,8 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const barSin = document.getElementById('bar-sin');
     const barCos = document.getElementById('bar-cos');
     const barTan = document.getElementById('bar-tan');
-    const vizTriangle = document.getElementById('viz-triangle');
-    const vizArc = document.getElementById('viz-arc');
+    const lineSin = document.getElementById('line-sin');
+    const lineCos = document.getElementById('line-cos');
+    const lineTan = document.getElementById('line-tan');
+    const lineRadius = document.getElementById('line-radius');
+    const labelSin = document.getElementById('label-sin');
+    const labelCos = document.getElementById('label-cos');
+    const labelTan = document.getElementById('label-tan');
 
     function updateTrend() {
         const deg = parseInt(trendRange.value);
@@ -59,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const s = Math.sin(rad);
         const c = Math.cos(rad);
-        const t = deg === 90 ? 999 : Math.tan(rad);
+        const t = Math.tan(rad);
 
         trendSin.textContent = s.toFixed(4);
         trendCos.textContent = c.toFixed(4);
@@ -68,20 +73,51 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update progress bars
         barSin.style.width = (s * 100) + '%';
         barCos.style.width = (c * 100) + '%';
-        barTan.style.width = Math.min(t * 20, 100) + '%'; // Tan grows fast, so scaled
+        barTan.style.width = Math.min(t * 20, 100) + '%';
 
-        // Update SVG visualization
-        const r = 80;
-        const startX = 20;
-        const startY = 100;
-        const endX = startX + r * c;
-        const endY = startY - r * s;
+        // SVG Visualization logic (Unit circle R=100)
+        const R = 100;
+        const originX = 20;
+        const originY = 130;
 
-        vizTriangle.setAttribute('d', `M ${startX} ${startY} L ${endX} ${startY} L ${endX} ${endY} Z`);
+        // Radius end point on circle
+        const circleX = originX + R * c;
+        const circleY = originY - R * s;
+
+        // Radius line
+        lineRadius.setAttribute('x2', circleX);
+        lineRadius.setAttribute('y2', circleY);
+
+        // Cosine line (Horizontal from origin to circleX)
+        lineCos.setAttribute('x2', circleX);
+        labelCos.setAttribute('x', originX + (R * c) / 2 - 10);
+        labelCos.setAttribute('y', originY + 12);
+
+        // Sine line (Vertical from circleX to circleY)
+        lineSin.setAttribute('x1', circleX);
+        lineSin.setAttribute('y1', originY);
+        lineSin.setAttribute('x2', circleX);
+        lineSin.setAttribute('y2', circleY);
+        labelSin.setAttribute('x', circleX + 5);
+        labelSin.setAttribute('y', originY - (R * s) / 2);
+
+        // Tangent line (Vertical from (originX + R) up to intersection)
+        const tanX = originX + R;
+        const tanY = originY - R * t;
         
-        // Arc path
-        const largeArcFlag = deg > 180 ? 1 : 0;
-        vizArc.setAttribute('d', `M ${startX + r} ${startY} A ${r} ${r} 0 ${largeArcFlag} 0 ${endX} ${endY} L ${startX} ${startY} Z`);
+        if (deg < 90) {
+            lineTan.setAttribute('x1', tanX);
+            lineTan.setAttribute('y1', originY);
+            lineTan.setAttribute('x2', tanX);
+            lineTan.setAttribute('y2', Math.max(tanY, 10)); // Limit visual height
+            lineTan.style.display = 'block';
+            labelTan.setAttribute('x', tanX + 5);
+            labelTan.setAttribute('y', Math.max(tanY + (originY - tanY) / 2, 20));
+            labelTan.style.display = 'block';
+        } else {
+            lineTan.style.display = 'none';
+            labelTan.style.display = 'none';
+        }
     }
 
     trendRange.addEventListener('input', updateTrend);
