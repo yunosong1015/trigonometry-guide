@@ -128,6 +128,44 @@
                 </div>
             </div>
         </section>
+
+        <section id="trends" class="container">
+            <h2>4. 각도 변화에 따른 삼각비의 추세</h2>
+            <p>0°에서 90°까지 각도가 커질 때 삼각비 값이 어떻게 변하는지 확인해 보세요.</p>
+            <div class="trend-box">
+                <div class="slider-container">
+                    <input type="range" id="trend-range" min="0" max="90" value="30" class="slider">
+                    <div class="angle-display">현재 각도: <span id="current-angle">30</span>°</div>
+                </div>
+                <div class="trend-visual">
+                    <div class="viz-wrapper">
+                        <svg viewBox="0 0 120 120" width="100%" height="auto">
+                            <!-- Arc/Sector placeholder -->
+                            <circle cx="20" cy="100" r="80" fill="#f0f0f0" />
+                            <path id="viz-arc" d="" fill="rgba(52, 152, 219, 0.2)" stroke="#3498db" stroke-width="2" />
+                            <line x1="20" y1="100" x2="100" y2="100" stroke="#ccc" stroke-width="1" />
+                            <line x1="20" y1="100" x2="20" y2="20" stroke="#ccc" stroke-width="1" />
+                            <!-- Dynamic Triangle -->
+                            <path id="viz-triangle" d="" fill="none" stroke="#e74c3c" stroke-width="3" />
+                        </svg>
+                    </div>
+                    <div class="trend-values">
+                        <div class="trend-item">
+                            <strong>sin</strong> (증가): <span id="trend-sin">0.5000</span>
+                            <div class="progress-bar"><div id="bar-sin" class="bar" style="width: 50%"></div></div>
+                        </div>
+                        <div class="trend-item">
+                            <strong>cos</strong> (감소): <span id="trend-cos">0.8660</span>
+                            <div class="progress-bar"><div id="bar-cos" class="bar" style="width: 86.6%"></div></div>
+                        </div>
+                        <div class="trend-item">
+                            <strong>tan</strong> (급증): <span id="trend-tan">0.5774</span>
+                            <div class="progress-bar"><div id="bar-tan" class="bar" style="width: 20%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
