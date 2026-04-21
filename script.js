@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const labelSin = document.getElementById('label-sin');
     const labelCos = document.getElementById('label-cos');
     const labelTan = document.getElementById('label-tan');
+    const angleArc = document.getElementById('angle-arc');
+    const angleTheta = document.getElementById('angle-theta');
 
     function updateTrend() {
         const deg = parseInt(trendRange.value);
@@ -70,10 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
         trendCos.textContent = c.toFixed(4);
         trendTan.textContent = deg === 90 ? '∞' : t.toFixed(4);
 
-        // Update progress bars
-        barSin.style.width = (s * 100) + '%';
-        barCos.style.width = (c * 100) + '%';
-        barTan.style.width = Math.min(t * 20, 100) + '%';
+        // Update progress bars (Same scale: 1.0 = 100%)
+        barSin.style.width = Math.min(s * 100, 100) + '%';
+        barCos.style.width = Math.min(c * 100, 100) + '%';
+        barTan.style.width = Math.min(t * 100, 100) + '%';
 
         // SVG Visualization logic (Unit circle R=100)
         const R = 100;
@@ -87,6 +89,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Radius line
         lineRadius.setAttribute('x2', circleX);
         lineRadius.setAttribute('y2', circleY);
+
+        // Angle Arc and Theta Label
+        const arcR = 25; // Small radius for angle arc
+        const arcEndX = originX + arcR * c;
+        const arcEndY = originY - arcR * s;
+        
+        if (deg > 0) {
+            angleArc.setAttribute('d', `M ${originX + arcR} ${originY} A ${arcR} ${arcR} 0 0 0 ${arcEndX} ${arcEndY}`);
+            angleArc.style.display = 'block';
+        } else {
+            angleArc.style.display = 'none';
+        }
+
+        // Place theta in the middle of the angle, slightly outside the arc
+        const midRad = rad / 2;
+        const thetaDist = arcR + 9;
+        const thetaX = originX + thetaDist * Math.cos(midRad);
+        const thetaY = originY - thetaDist * Math.sin(midRad);
+        angleTheta.setAttribute('x', thetaX);
+        angleTheta.setAttribute('y', thetaY);
 
         // Cosine line (Horizontal from origin to circleX)
         lineCos.setAttribute('x2', circleX);

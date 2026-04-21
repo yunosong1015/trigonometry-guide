@@ -26,7 +26,7 @@
             <p>직각삼각형에서 두 변의 길이의 비를 삼각비라고 합니다.</p>
             <div class="definition-grid">
                 <div class="svg-container">
-                    <svg viewBox="0 0 200 150" width="100%" height="auto">
+                    <svg viewBox="0 0 230 150" width="100%" height="auto">
                         <!-- Right Triangle -->
                         <path d="M 40 120 L 160 120 L 160 20 Z" fill="none" stroke="#2c3e50" stroke-width="3" />
                         <!-- Right angle symbol -->
@@ -36,7 +36,7 @@
                         <text x="165" y="135" font-family="Arial" font-size="14">C</text>
                         <text x="165" y="20" font-family="Arial" font-size="14">B</text>
                         <text x="100" y="135" font-family="Arial" font-size="12" fill="#e74c3c">밑변 (b)</text>
-                        <text x="165" y="75" font-family="Arial" font-size="12" fill="#27ae60">높이 (a)</text>
+                        <text x="165" y="75" font-family="Arial, sans-serif" font-size="12" fill="#27ae60">높이 (a)</text>
                         <text x="75" y="65" font-family="Arial" font-size="12" fill="#2980b9" transform="rotate(-38, 75, 65)">빗변 (c)</text>
                     </svg>
                 </div>
@@ -158,8 +158,9 @@
                             <!-- Radius Line (Moving) -->
                             <line id="line-radius" x1="20" y1="130" x2="120" y2="30" stroke="#2c3e50" stroke-width="2" />
                             
-                            <!-- Angle Label -->
-                            <text x="35" y="120" font-family="Arial" font-size="10" fill="#2c3e50">θ</text>
+                            <!-- Angle Arc & Label -->
+                            <path id="angle-arc" d="" fill="none" stroke="#2c3e50" stroke-width="1.5" />
+                            <text id="angle-theta" x="35" y="120" font-family="Arial" font-size="12" fill="#2c3e50" font-weight="bold" text-anchor="middle" dominant-baseline="middle">θ</text>
                             
                             <!-- Labels for lines (Dynamic placement handled by JS) -->
                             <text id="label-sin" x="0" y="0" font-size="8" fill="#3498db" font-weight="bold">sin</text>
