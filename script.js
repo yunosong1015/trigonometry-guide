@@ -30,4 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
         cosRes.textContent = cosVal;
         tanRes.textContent = tanVal;
     });
+
+    // Table click interaction
+    const cells = document.querySelectorAll('section#values td');
+    cells.forEach(cell => {
+        cell.addEventListener('click', () => {
+            cell.classList.toggle('show');
+        });
+    });
 });

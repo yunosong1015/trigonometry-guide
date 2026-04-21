@@ -131,6 +131,43 @@ th, td {
     border: 1px solid #eee;
 }
 
+td {
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+td:hover {
+    background-color: #ecf0f1;
+}
+
+td .value {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+td.show .value {
+    visibility: visible;
+    opacity: 1;
+}
+
+td::after {
+    content: '?';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--primary-color);
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+td.show::after {
+    opacity: 0;
+}
+
 th {
     background-color: #f8f9fa;
     color: var(--secondary-color);
