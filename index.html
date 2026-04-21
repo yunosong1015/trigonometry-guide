@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>삼각비 가이드 - 수학을 즐겁게</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">삼각비 Guide</div>
+        </nav>
+        <div class="hero">
+            <h1>세상을 측정하는 도구, 삼각비</h1>
+            <p>사인(sin), 코사인(cos), 탄젠트(tan)의 기초부터 활용까지 알아보세요.</p>
+        </div>
+    </header>
+
+    <main>
+        <section id="definition" class="container">
+            <h2>1. 삼각비란 무엇인가요?</h2>
+            <p>직각삼각형에서 두 변의 길이의 비를 삼각비라고 합니다.</p>
+            <div class="definition-grid">
+                <div class="svg-container">
+                    <svg viewBox="0 0 200 150" width="100%" height="auto">
+                        <!-- Right Triangle -->
+                        <path d="M 40 120 L 160 120 L 160 20 Z" fill="none" stroke="#2c3e50" stroke-width="3" />
+                        <!-- Right angle symbol -->
+                        <path d="M 150 120 L 150 110 L 160 110" fill="none" stroke="#2c3e50" stroke-width="2" />
+                        <!-- Labels -->
+                        <text x="30" y="135" font-family="Arial" font-size="14">A (θ)</text>
+                        <text x="165" y="135" font-family="Arial" font-size="14">C</text>
+                        <text x="165" y="20" font-family="Arial" font-size="14">B</text>
+                        <text x="100" y="135" font-family="Arial" font-size="12" fill="#e74c3c">밑변 (b)</text>
+                        <text x="165" y="70" font-family="Arial" font-size="12" fill="#27ae60">높이 (a)</text>
+                        <text x="75" y="65" font-family="Arial" font-size="12" fill="#2980b9" transform="rotate(-38, 75, 65)">빗변 (c)</text>
+                    </svg>
+                </div>
+                <div class="formula-cards">
+                    <div class="card sin">
+                        <h3>sin θ (사인)</h3>
+                        <p>높이 / 빗변 = a / c</p>
+                    </div>
+                    <div class="card cos">
+                        <h3>cos θ (코사인)</h3>
+                        <p>밑변 / 빗변 = b / c</p>
+                    </div>
+                    <div class="card tan">
+                        <h3>tan θ (탄젠트)</h3>
+                        <p>높이 / 밑변 = a / b</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="values" class="container">
+            <h2>2. 특수각의 삼각비</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>각도 (θ)</th>
+                            <th>0°</th>
+                            <th>30°</th>
+                            <th>45°</th>
+                            <th>60°</th>
+                            <th>90°</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>sin θ</th>
+                            <td>0</td>
+                            <td>1/2</td>
+                            <td>√2/2</td>
+                            <td>√3/2</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th>cos θ</th>
+                            <td>1</td>
+                            <td>√3/2</td>
+                            <td>√2/2</td>
+                            <td>1/2</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th>tan θ</th>
+                            <td>0</td>
+                            <td>√3/3</td>
+                            <td>1</td>
+                            <td>√3</td>
+                            <td>∞</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="calculator" class="container">
+            <h2>3. 삼각비 계산기</h2>
+            <div class="calc-box">
+                <div class="input-group">
+                    <label for="angle">각도 입력 (°):</label>
+                    <input type="number" id="angle" placeholder="예: 30" min="0" max="360">
+                    <button id="calc-btn">계산하기</button>
+                </div>
+                <div id="results" class="results-grid">
+                    <div class="res-item">sin: <span id="sin-res">-</span></div>
+                    <div class="res-item">cos: <span id="cos-res">-</span></div>
+                    <div class="res-item">tan: <span id="tan-res">-</span></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 삼각비 가이드 프로젝트. 모든 권리 보유.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
