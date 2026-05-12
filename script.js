@@ -29,6 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
         sinRes.textContent = sinVal;
         cosRes.textContent = cosVal;
         tanRes.textContent = tanVal;
+
+        // 결과 레이블에도 각도 표시
+        const resAngles = document.querySelectorAll('.res-angle');
+        resAngles.forEach(el => el.textContent = degrees);
     });
 
     // Table click interaction

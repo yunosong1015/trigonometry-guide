@@ -412,21 +412,21 @@ td .value {
 
 .trend-item {
     position: relative;
-    padding-left: 2rem;
+    display: flex;
+    align-items: center;
 }
 
-.trend-item::before {
+.trend-item::after {
     content: '?';
-    position: absolute;
-    left: 0;
+    margin-left: 0.5rem;
     color: var(--primary-color);
     font-weight: bold;
     opacity: 1;
     transition: opacity 0.3s;
 }
 
-.trend-item.show-val::before {
-    opacity: 0;
+.trend-item.show-val::after {
+    display: none;
 }
 
 footer {
