@@ -134,55 +134,29 @@
 
         <section id="trends" class="container">
             <h2>4. 각도 변화에 따른 삼각비의 추세</h2>
-            <p>0°에서 90°까지 각도가 커질 때 삼각비 값이 어떻게 변하는지 확인해 보세요.</p>
             <div class="trend-box">
                 <div class="slider-container">
-                    <input type="range" id="trend-range" min="0" max="90" value="30" class="slider">
-                    <div class="angle-display">현재 각도: <span id="current-angle">30</span>°</div>
+                    <p class="slider-instruction">&lt;각도 조절&gt; : 점을 움직여 보세요.</p>
+                    <div class="slider-wrapper">
+                        <input type="range" id="trend-range" min="0" max="90" value="30" class="slider">
+                        <div class="angle-display">A = <span id="current-angle">30</span>°</div>
+                    </div>
                 </div>
                 <div class="trend-visual">
                     <div class="viz-wrapper">
-                        <svg viewBox="0 0 150 150" width="100%" height="auto" class="unit-circle-svg">
-                            <!-- Background Quarter Circle (Protractor style) -->
-                            <path d="M 20 130 L 120 130 A 100 100 0 0 0 20 30 Z" fill="#f8f9fa" stroke="#ddd" stroke-width="1" />
-                            
-                            <!-- Grid Lines -->
-                            <line x1="20" y1="130" x2="130" y2="130" stroke="#888" stroke-width="1" /> <!-- X-axis -->
-                            <line x1="20" y1="130" x2="20" y2="20" stroke="#888" stroke-width="1" />   <!-- Y-axis -->
-                            <line x1="120" y1="130" x2="120" y2="30" stroke="#ddd" stroke-dasharray="2,2" /> <!-- Tan limit line -->
-
-                            <!-- Cosine Line (Bottom) -->
-                            <line id="line-cos" x1="20" y1="130" x2="120" y2="130" stroke="#27ae60" stroke-width="4" />
-                            <!-- Sine Line (Vertical) -->
-                            <line id="line-sin" x1="120" y1="130" x2="120" y2="30" stroke="#3498db" stroke-width="4" />
-                            <!-- Tangent Line (Right side) -->
-                            <line id="line-tan" x1="120" y1="130" x2="120" y2="130" stroke="#e67e22" stroke-width="4" />
-
-                            <!-- Radius Line (Moving) -->
-                            <line id="line-radius" x1="20" y1="130" x2="120" y2="30" stroke="#2c3e50" stroke-width="2" />
-                            
-                            <!-- Angle Arc & Label -->
-                            <path id="angle-arc" d="" fill="none" stroke="#2c3e50" stroke-width="1.5" />
-                            <text id="angle-theta" x="35" y="120" font-family="Arial" font-size="12" fill="#2c3e50" font-weight="bold" text-anchor="middle" dominant-baseline="middle">θ</text>
-                            
-                            <!-- Labels for lines (Dynamic placement handled by JS) -->
-                            <text id="label-sin" x="0" y="0" font-size="8" fill="#3498db" font-weight="bold">sin</text>
-                            <text id="label-cos" x="0" y="0" font-size="8" fill="#27ae60" font-weight="bold">cos</text>
-                            <text id="label-tan" x="0" y="0" font-size="8" fill="#e67e22" font-weight="bold">tan</text>
+                        <svg viewBox="0 0 500 300" width="100%" height="auto" id="trig-svg" class="unit-circle-svg">
+                            <!-- Coordinate Plane will be drawn here by JS -->
                         </svg>
                     </div>
                     <div class="trend-values">
                         <div class="trend-item">
-                            <strong>sin</strong> (증가): <span id="trend-sin">0.5000</span>
-                            <div class="progress-bar"><div id="bar-sin" class="bar" style="width: 50%"></div></div>
+                            sin A = <span id="trend-sin">0.5000</span>
                         </div>
                         <div class="trend-item">
-                            <strong>cos</strong> (감소): <span id="trend-cos">0.8660</span>
-                            <div class="progress-bar"><div id="bar-cos" class="bar" style="width: 86.6%"></div></div>
+                            cos A = <span id="trend-cos">0.8660</span>
                         </div>
                         <div class="trend-item">
-                            <strong>tan</strong> (급증): <span id="trend-tan">0.5774</span>
-                            <div class="progress-bar"><div id="bar-tan" class="bar" style="width: 20%"></div></div>
+                            tan A = <span id="trend-tan">0.5774</span>
                         </div>
                     </div>
                 </div>

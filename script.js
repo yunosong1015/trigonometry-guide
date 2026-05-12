@@ -39,29 +39,106 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Trend Section Value Click (New)
+    const trendItems = document.querySelectorAll('.trend-item');
+    trendItems.forEach(item => {
+        item.style.cursor = 'pointer';
+        item.classList.add('hide-val'); // CSS will handle hiding
+        item.addEventListener('click', () => {
+            item.classList.toggle('show-val');
+        });
+    });
+
     // Trend Slider interaction
     const trendRange = document.getElementById('trend-range');
     const currentAngle = document.getElementById('current-angle');
     const trendSin = document.getElementById('trend-sin');
     const trendCos = document.getElementById('trend-cos');
     const trendTan = document.getElementById('trend-tan');
-    const barSin = document.getElementById('bar-sin');
-    const barCos = document.getElementById('bar-cos');
-    const barTan = document.getElementById('bar-tan');
-    const lineSin = document.getElementById('line-sin');
-    const lineCos = document.getElementById('line-cos');
-    const lineTan = document.getElementById('line-tan');
-    const lineRadius = document.getElementById('line-radius');
-    const labelSin = document.getElementById('label-sin');
-    const labelCos = document.getElementById('label-cos');
-    const labelTan = document.getElementById('label-tan');
-    const angleArc = document.getElementById('angle-arc');
-    const angleTheta = document.getElementById('angle-theta');
+    const trigSvg = document.getElementById('trig-svg');
+
+    // Constants for SVG
+    const originX = 100;
+    const originY = 850;
+    const unitSize = 640;
+    const svgNS = "http://www.w3.org/2000/svg";
+
+    // Track SVG Label Visibility
+    const labelStates = { sin: false, cos: false, tan: false };
+
+    function createSvgElement(tag, attrs) {
+        const el = document.createElementNS(svgNS, tag);
+        for (let k in attrs) el.setAttribute(k, attrs[k]);
+        return el;
+    }
+
+    function initSvg() {
+        trigSvg.innerHTML = '';
+        trigSvg.setAttribute('viewBox', '0 0 1300 1100');
+
+        // Axes
+        trigSvg.appendChild(createSvgElement('line', { x1: 20, y1: originY, x2: 1250, y2: originY, stroke: '#888', 'stroke-width': 3 }));
+        trigSvg.appendChild(createSvgElement('line', { x1: originX, y1: 1050, x2: originX, y2: 20, stroke: '#888', 'stroke-width': 3 }));
+
+        // Ticks X
+        for (let i = 0; i <= 1.5; i += 0.5) {
+            const x = originX + i * unitSize;
+            if (x > 1280) break;
+            trigSvg.appendChild(createSvgElement('line', { x1: x, y1: originY - 10, x2: x, y2: originY + 10, stroke: '#888', 'stroke-width': 2 }));
+            let labelX = x;
+            if (i === 0 || i === 1) labelX -= 25;
+            const txt = createSvgElement('text', { x: labelX, y: originY + 100, 'font-size': '48', 'text-anchor': 'middle', 'font-weight': 'bold' });
+            txt.textContent = i;
+            trigSvg.appendChild(txt);
+        }
+
+        // Ticks Y
+        for (let i = 0.5; i <= 1.5; i += 0.5) {
+            const y = originY - i * unitSize;
+            if (y < 20) break;
+            trigSvg.appendChild(createSvgElement('line', { x1: originX - 10, y1: y, x2: originX + 10, y2: y, stroke: '#888', 'stroke-width': 2 }));
+            const txt = createSvgElement('text', { x: originX - 25, y: y + 15, 'font-size': '48', 'text-anchor': 'end', 'font-weight': 'bold' });
+            txt.textContent = i;
+            trigSvg.appendChild(txt);
+        }
+
+        // Unit Circle Arc
+        trigSvg.appendChild(createSvgElement('path', { 
+            d: `M ${originX + unitSize} ${originY} A ${unitSize} ${unitSize} 0 0 0 ${originX} ${originY - unitSize}`, 
+            fill: 'none', stroke: '#444', 'stroke-width': 4 
+        }));
+
+        // Tan limit line
+        trigSvg.appendChild(createSvgElement('line', { x1: originX + unitSize, y1: 950, x2: originX + unitSize, y2: 20, stroke: '#444', 'stroke-width': 3 }));
+
+        // Dynamic Elements
+        trigSvg.appendChild(createSvgElement('line', { id: 'line-radius', x1: originX, y1: originY, x2: 0, y2: 0, stroke: '#444', 'stroke-width': 3 }));
+        trigSvg.appendChild(createSvgElement('line', { id: 'line-cos', x1: originX, y1: originY, x2: 0, y2: originY, stroke: '#f39c12', 'stroke-width': 12 }));
+        trigSvg.appendChild(createSvgElement('line', { id: 'line-sin', x1: 0, y1: originY, x2: 0, y2: 0, stroke: '#3498db', 'stroke-width': 12 }));
+        trigSvg.appendChild(createSvgElement('line', { id: 'line-tan', x1: originX + unitSize, y1: originY, x2: originX + unitSize, y2: 0, stroke: '#e74c3c', 'stroke-width': 12 }));
+        
+        trigSvg.appendChild(createSvgElement('path', { id: 'angle-arc', fill: 'none', stroke: '#444', 'stroke-width': 2 }));
+        const angleLabel = createSvgElement('text', { id: 'angle-label', 'font-size': '48', 'font-weight': 'bold' });
+        angleLabel.textContent = 'A';
+        trigSvg.appendChild(angleLabel);
+
+        // Labels with Click Interaction
+        const labelSin = createSvgElement('text', { id: 'label-sin', 'font-size': '56', 'font-weight': 'bold', cursor: 'pointer' });
+        const labelCos = createSvgElement('text', { id: 'label-cos', 'font-size': '56', 'font-weight': 'bold', 'text-anchor': 'middle', cursor: 'pointer' });
+        const labelTan = createSvgElement('text', { id: 'label-tan', 'font-size': '56', 'font-weight': 'bold', cursor: 'pointer' });
+
+        labelSin.addEventListener('click', () => { labelStates.sin = !labelStates.sin; updateTrend(); });
+        labelCos.addEventListener('click', () => { labelStates.cos = !labelStates.cos; updateTrend(); });
+        labelTan.addEventListener('click', () => { labelStates.tan = !labelStates.tan; updateTrend(); });
+
+        trigSvg.appendChild(labelSin);
+        trigSvg.appendChild(labelCos);
+        trigSvg.appendChild(labelTan);
+    }
 
     function updateTrend() {
         const deg = parseInt(trendRange.value);
         const rad = (deg * Math.PI) / 180;
-        
         currentAngle.textContent = deg;
         
         const s = Math.sin(rad);
@@ -72,76 +149,72 @@ document.addEventListener('DOMContentLoaded', () => {
         trendCos.textContent = c.toFixed(4);
         trendTan.textContent = deg === 90 ? '∞' : t.toFixed(4);
 
-        // Update progress bars (Same scale: 1.0 = 100%)
-        barSin.style.width = Math.min(s * 100, 100) + '%';
-        barCos.style.width = Math.min(c * 100, 100) + '%';
-        barTan.style.width = Math.min(t * 100, 100) + '%';
+        const circleX = originX + unitSize * c;
+        const circleY = originY - unitSize * s;
 
-        // SVG Visualization logic (Unit circle R=100)
-        const R = 100;
-        const originX = 20;
-        const originY = 130;
-
-        // Radius end point on circle
-        const circleX = originX + R * c;
-        const circleY = originY - R * s;
-
-        // Radius line
-        lineRadius.setAttribute('x2', circleX);
-        lineRadius.setAttribute('y2', circleY);
-
-        // Angle Arc and Theta Label
-        const arcR = 25; // Small radius for angle arc
-        const arcEndX = originX + arcR * c;
-        const arcEndY = originY - arcR * s;
+        const rLine = document.getElementById('line-radius');
+        const tanX = originX + unitSize;
+        const tanY = originY - unitSize * t;
         
-        if (deg > 0) {
-            angleArc.setAttribute('d', `M ${originX + arcR} ${originY} A ${arcR} ${arcR} 0 0 0 ${arcEndX} ${arcEndY}`);
-            angleArc.style.display = 'block';
+        if (deg < 60) {
+            rLine.setAttribute('x2', tanX);
+            rLine.setAttribute('y2', tanY);
         } else {
-            angleArc.style.display = 'none';
+            rLine.setAttribute('x2', circleX + (circleX - originX) * 2);
+            rLine.setAttribute('y2', circleY + (circleY - originY) * 2);
         }
 
-        // Place theta in the middle of the angle, slightly outside the arc
-        const midRad = rad / 2;
-        const thetaDist = arcR + 9;
-        const thetaX = originX + thetaDist * Math.cos(midRad);
-        const thetaY = originY - thetaDist * Math.sin(midRad);
-        angleTheta.setAttribute('x', thetaX);
-        angleTheta.setAttribute('y', thetaY);
+        document.getElementById('line-cos').setAttribute('x2', circleX);
+        const sLine = document.getElementById('line-sin');
+        sLine.setAttribute('x1', circleX); sLine.setAttribute('y1', originY);
+        sLine.setAttribute('x2', circleX); sLine.setAttribute('y2', circleY);
 
-        // Cosine line (Horizontal from origin to circleX)
-        lineCos.setAttribute('x2', circleX);
-        labelCos.setAttribute('x', originX + (R * c) / 2 - 10);
-        labelCos.setAttribute('y', originY + 12);
-
-        // Sine line (Vertical from circleX to circleY)
-        lineSin.setAttribute('x1', circleX);
-        lineSin.setAttribute('y1', originY);
-        lineSin.setAttribute('x2', circleX);
-        lineSin.setAttribute('y2', circleY);
-        labelSin.setAttribute('x', circleX + 5);
-        labelSin.setAttribute('y', originY - (R * s) / 2);
-
-        // Tangent line (Vertical from (originX + R) up to intersection)
-        const tanX = originX + R;
-        const tanY = originY - R * t;
-        
+        const tLine = document.getElementById('line-tan');
         if (deg < 90) {
-            lineTan.setAttribute('x1', tanX);
-            lineTan.setAttribute('y1', originY);
-            lineTan.setAttribute('x2', tanX);
-            lineTan.setAttribute('y2', Math.max(tanY, 10)); // Limit visual height
-            lineTan.style.display = 'block';
-            labelTan.setAttribute('x', tanX + 5);
-            labelTan.setAttribute('y', Math.max(tanY + (originY - tanY) / 2, 20));
-            labelTan.style.display = 'block';
+            tLine.setAttribute('y2', Math.max(tanY, 20));
+            tLine.style.display = 'block';
         } else {
-            lineTan.style.display = 'none';
-            labelTan.style.display = 'none';
+            tLine.style.display = 'none';
         }
+
+        // SVG Label Content and Style Update
+        const lSin = document.getElementById('label-sin');
+        lSin.textContent = labelStates.sin ? 'sin A' : '?';
+        lSin.setAttribute('fill', labelStates.sin ? '#3498db' : '#999');
+        lSin.setAttribute('x', circleX - (labelStates.sin ? 180 : 60));
+        lSin.setAttribute('y', circleY + (originY - circleY) / 2 + 15);
+
+        const lCos = document.getElementById('label-cos');
+        lCos.textContent = labelStates.cos ? 'cos A' : '?';
+        lCos.setAttribute('fill', labelStates.cos ? '#f39c12' : '#999');
+        lCos.setAttribute('x', originX + (circleX - originX) / 2);
+        lCos.setAttribute('y', originY + 80);
+
+        const lTan = document.getElementById('label-tan');
+        lTan.textContent = labelStates.tan ? 'tan A' : '?';
+        lTan.setAttribute('fill', labelStates.tan ? '#e74c3c' : '#999');
+        lTan.setAttribute('x', tanX + 30);
+        lTan.setAttribute('y', tanY + (originY - tanY) / 2 + 15);
+        lTan.style.display = deg < 65 ? 'block' : 'none';
+
+        // Arc & Label
+        const arcR = 80;
+        const aArc = document.getElementById('angle-arc');
+        if (deg > 0) {
+            const arcEndX = originX + arcR * Math.cos(rad);
+            const arcEndY = originY - arcR * Math.sin(rad);
+            aArc.setAttribute('d', `M ${originX + arcR} ${originY} A ${arcR} ${arcR} 0 0 0 ${arcEndX} ${arcEndY}`);
+            aArc.style.display = 'block';
+        } else {
+            aArc.style.display = 'none';
+        }
+        const aLabel = document.getElementById('angle-label');
+        const midRad = rad / 2;
+        aLabel.setAttribute('x', originX + (arcR + 45) * Math.cos(midRad));
+        aLabel.setAttribute('y', originY - (arcR + 45) * Math.sin(midRad) + 15);
     }
 
+    initSvg();
     trendRange.addEventListener('input', updateTrend);
-    updateTrend(); // Initial call
+    updateTrend();
 });
