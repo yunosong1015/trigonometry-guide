@@ -295,7 +295,8 @@ button { font: inherit; cursor: pointer; }
     border: 1px solid var(--line); border-radius: 10px; padding: 0.9rem;
     display: flex; flex-direction: column;
 }
-.probe-card.probe-key { border-color: #fca5a5; background: #fffbfb; }
+/* (6)은 답을 확인한 뒤에만 색으로 구분합니다 — 미리 표시되면 답이 드러납니다 */
+.probe-card.probe-key[data-done="1"] { border-color: #fca5a5; background: #fffbfb; }
 .probe-card h4 { font-size: 1rem; color: var(--navy); margin-bottom: 0.3rem; font-family: 'D2Coding', monospace; }
 .probe-fig { background: #f8fafc; border-radius: 8px; padding: 0.25rem; }
 .probe-fig svg { width: 100%; height: auto; display: block; }
@@ -325,6 +326,7 @@ button { font: inherit; cursor: pointer; }
 .probe-feedback.open { display: block; }
 .probe-feedback p { margin-top: 0.4rem; }
 .probe-card.probe-key .probe-feedback { border-left-color: var(--tan); background: #fef2f2; }
+.probe-card { transition: border-color 0.25s, background 0.25s; }
 
 .probe-summary {
     display: none; margin-top: 1.5rem; padding: 1.1rem 1.25rem;
