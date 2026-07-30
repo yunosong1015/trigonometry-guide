@@ -103,6 +103,46 @@ header {
 }
 .section-nav a:hover, .section-nav a:focus-visible { background: #e0e7ff; color: var(--primary); }
 
+/* ---------------- 활동 전환 (메뉴 = 탭) ---------------- */
+main > section { display: none; }
+main > section.is-active { display: block; animation: fadeUp 0.25s ease; }
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.section-nav a.current {
+    background: var(--primary);
+    color: #fff;
+}
+.section-nav a.current:hover { background: var(--primary); color: #fff; }
+
+.section-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; margin-top: 2rem; padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+}
+.step-badge {
+    flex: 0 0 auto; font-size: 0.85rem; font-weight: 700;
+    color: var(--ink-soft); font-family: 'D2Coding', monospace;
+}
+.step-btn {
+    flex: 0 1 auto; max-width: 42%;
+    padding: 0.5rem 1rem; border-radius: 999px;
+    border: 1px solid var(--primary); background: #fff; color: var(--primary);
+    font-size: 0.85rem; font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: background 0.2s;
+}
+.step-btn:hover { background: #eff6ff; }
+.step-btn.hidden { visibility: hidden; }
+
+@media (max-width: 600px) {
+    .step-btn { font-size: 0.78rem; padding: 0.45rem 0.7rem; }
+    .step-badge { font-size: 0.75rem; }
+}
+
 /* ---------------- 레이아웃 ---------------- */
 main { padding: 2.5rem 1rem; }
 
@@ -550,8 +590,10 @@ footer { text-align: center; padding: 2rem 1rem; background: var(--navy); color:
     html { font-size: 11pt; }
     body { background: #fff; }
     header { background: none; color: #000; padding: 0 0 1rem; }
-    header .topbar, .section-nav, .btn-row, .slider-container,
+    main > section { display: block !important; animation: none !important; }
+    header .topbar, .section-nav, .btn-row, .slider-container, .section-foot,
     .ghost-btn, #calc-btn, .input-group, .scroll-hint, .zoom-note, .err { display: none !important; }
+    .probe-feedback, .probe-summary { display: block !important; }
     .container { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; margin-bottom: 1rem; page-break-inside: avoid; }
     /* 인쇄물에서는 가려둔 답을 모두 보이게 */
     .special-table td .value, .trend-item span { visibility: visible !important; opacity: 1 !important; }

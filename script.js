@@ -560,7 +560,105 @@
         });
 
         /* ===================================================
-           6. 실생활 문제 - 풀이 보기
+           6. 활동 전환 — 메뉴를 누르면 그 활동만 보입니다
+           =================================================== */
+        var sections = document.querySelectorAll('main > section');
+        var navBar = document.querySelector('.section-nav');
+        var navLinks = document.querySelectorAll('.section-nav a');
+        var mainEl = document.querySelector('main');
+
+        /* 각 활동 아래에 이전 / 다음 버튼을 붙입니다 */
+        var titles = [];
+        sections.forEach(function (sec) {
+            var h = sec.querySelector('h2');
+            titles.push(h ? h.textContent.trim() : sec.id);
+        });
+
+        function shortTitle(t) {
+            var i = t.indexOf('.');
+            return i > -1 ? t.slice(i + 1).trim() : t;
+        }
+
+        sections.forEach(function (sec, i) {
+            var foot = document.createElement('div');
+            foot.className = 'section-foot';
+
+            var prev = document.createElement('button');
+            prev.type = 'button';
+            prev.className = 'step-btn' + (i === 0 ? ' hidden' : '');
+            prev.textContent = i === 0 ? '' : '← ' + shortTitle(titles[i - 1]);
+            if (i > 0) prev.addEventListener('click', function () { goTo(sections[i - 1].id); });
+
+            var badge = document.createElement('span');
+            badge.className = 'step-badge';
+            badge.textContent = (i + 1) + ' / ' + sections.length;
+
+            var next = document.createElement('button');
+            next.type = 'button';
+            next.className = 'step-btn' + (i === sections.length - 1 ? ' hidden' : '');
+            next.textContent = i === sections.length - 1 ? '' : shortTitle(titles[i + 1]) + ' →';
+            if (i < sections.length - 1) next.addEventListener('click', function () { goTo(sections[i + 1].id); });
+
+            foot.appendChild(prev);
+            foot.appendChild(badge);
+            foot.appendChild(next);
+            sec.appendChild(foot);
+        });
+
+        function showSection(id, scroll) {
+            var target = null;
+            sections.forEach(function (sec) {
+                var on = (sec.id === id);
+                sec.classList.toggle('is-active', on);
+                if (on) target = sec;
+            });
+            if (!target && sections.length) {
+                target = sections[0];
+                target.classList.add('is-active');
+                id = target.id;
+            }
+
+            var current = null;
+            navLinks.forEach(function (a) {
+                var on = (a.getAttribute('href') === '#' + id);
+                a.classList.toggle('current', on);
+                if (on) current = a;
+            });
+            /* 모바일에서 선택한 메뉴가 보이도록 메뉴 줄을 옆으로 밀어 줍니다 */
+            if (current && navBar) {
+                navBar.scrollLeft = current.offsetLeft - navBar.clientWidth / 2 + current.clientWidth / 2;
+            }
+
+            /* 숨어 있던 그림을 다시 그립니다 */
+            drawSimilar();
+            drawUnitCircle();
+
+            if (scroll && mainEl) {
+                window.scrollTo({ top: Math.max(0, mainEl.offsetTop - 56), behavior: 'smooth' });
+            }
+        }
+
+        function goTo(id) {
+            if (('#' + id) === window.location.hash) showSection(id, true);
+            else window.location.hash = id;      /* hashchange 가 showSection 을 부릅니다 */
+        }
+
+        navLinks.forEach(function (a) {
+            a.addEventListener('click', function () {
+                /* 같은 메뉴를 다시 눌러도 위로 올라가도록 */
+                var id = a.getAttribute('href').slice(1);
+                setTimeout(function () { showSection(id, true); }, 0);
+            });
+        });
+
+        window.addEventListener('hashchange', function () {
+            showSection(window.location.hash.slice(1), true);
+        });
+
+        showSection(window.location.hash.slice(1) || (sections[0] && sections[0].id), false);
+
+        /* ===================================================
+           7. 실생활 문제 - 풀이 보기
            =================================================== */
         document.querySelectorAll('.sol-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
