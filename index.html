@@ -20,12 +20,14 @@
 
     <nav class="section-nav" aria-label="목차">
         <a href="#probe">1. 복습·도입</a>
-        <a href="#similar">2. 각과 변의 비</a>
-        <a href="#definition">3. 삼각비란</a>
-        <a href="#values">4. 특수각</a>
-        <a href="#trends">5. 사분원</a>
-        <a href="#tables">6. 삼각비의 표</a>
-        <a href="#apply">7. 실생활 활용</a>
+        <a href="#escalator">2. 에스컬레이터</a>
+        <a href="#thales">3. 탈레스</a>
+        <a href="#similar">4. 각과 변의 비</a>
+        <a href="#definition">5. 삼각비란</a>
+        <a href="#values">6. 특수각</a>
+        <a href="#trends">7. 사분원</a>
+        <a href="#tables">8. 삼각비의 표</a>
+        <a href="#apply">9. 실생활 활용</a>
     </nav>
 
     <main>
@@ -223,14 +225,160 @@
                 <p>(1)~(5)는 <b>닮음</b>, <b>피타고라스 정리</b>, <b>특별한 각(30°·45°·60°)의 성질</b>로 <i>x</i>를 구할 수 있었습니다.<br>
                 하지만 (6)처럼 각이 <b>50°</b>이기만 해도 방법이 없습니다.</p>
                 <p class="q">🤔 그런데 (4)와 (5)에서는 <b>각의 크기 하나만으로</b> "빗변의 절반"이라는 변의 비를 알 수 있었지요.<br>
-                그렇다면 <b>50°에 대해서도 변의 비를 알아낼 수 있다면</b> <i>x</i>를 구할 수 있지 않을까요?<br>
+                그렇다면 <b>50°처럼 특별하지 않은 각에서도</b> 길이를 알아낼 방법이 정말 없을까요?<br>
+                → 다음 활동에서 <b>각도기와 자만으로</b> 에스컬레이터의 높이를 구해 봅시다.</p>
+            </div>
+        </section>
+
+        <!-- ============ 2. 에스컬레이터 (개별과제) ============ -->
+        <section id="escalator" class="container">
+            <h2>2. 에스컬레이터의 높이 구하기</h2>
+            <p class="lead"><b>[개별과제]</b> 에스컬레이터의 시작점과 끝점 사이의 거리는 <b>20 m</b>이고, 지면과 에스컬레이터가 이루는 각이 <b>35°</b>입니다. 에스컬레이터의 높이를 <b>각도기와 자를 이용하여</b> 구해 봅시다.</p>
+
+            <div class="esc-intro">
+                <div class="esc-pic">
+                    <svg viewBox="0 0 420 210" role="img" aria-label="지면과 35도를 이루고 길이가 20미터인 에스컬레이터. 높이를 구하는 문제 그림.">
+                        <line x1="20" y1="175" x2="400" y2="175" stroke="#94a3b8" stroke-width="3"/>
+                        <!-- 에스컬레이터 -->
+                        <line x1="55" y1="175" x2="330" y2="35" stroke="#475569" stroke-width="9" stroke-linecap="round"/>
+                        <line x1="55" y1="175" x2="330" y2="35" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="10 8"/>
+                        <!-- 높이 -->
+                        <line x1="330" y1="175" x2="330" y2="35" stroke="#2563eb" stroke-width="4" stroke-dasharray="7 5"/>
+                        <line x1="55" y1="175" x2="330" y2="175" stroke="#d97706" stroke-width="3"/>
+                        <path d="M 320 175 L 320 165 L 330 165" fill="none" stroke="#334155" stroke-width="2"/>
+                        <path d="M 95 175 A 40 40 0 0 0 87.8 151.1" fill="none" stroke="#0f172a" stroke-width="2"/>
+                        <text x="103" y="168" class="es">35°</text>
+                        <text x="175" y="94" class="es" text-anchor="middle" fill="#334155" transform="rotate(-27, 175, 94)">20 m</text>
+                        <text x="340" y="110" class="es" fill="#2563eb" font-weight="bold">? m</text>
+                        <circle cx="55" cy="175" r="5" fill="#0f172a"/>
+                        <circle cx="330" cy="35" r="5" fill="#0f172a"/>
+                        <text x="40" y="195" class="es">시작점</text>
+                        <text x="336" y="30" class="es">끝점</text>
+                    </svg>
+                </div>
+                <div class="esc-ask">
+                    <p><b>(1)</b> 각도기와 자를 이용하여 이 문제를 해결하려면 어떤 도형을 그려야 할까요?</p>
+                    <p class="hintline">💡 20 m를 종이에 그대로 그릴 수는 없습니다. <b>실제와 닮은 작은 삼각형(축도)</b>을 그린 뒤, 그 그림에서 높이를 재어 실제 길이로 되돌리면 됩니다.</p>
+                </div>
+            </div>
+
+            <h3 class="sub">① 축척을 정해 축도를 그립니다</h3>
+            <div class="trend-box">
+                <div class="btn-row center" id="esc-scales">
+                    <button type="button" class="chip esc-chip" data-mpc="2">1 cm = 2 m</button>
+                    <button type="button" class="chip esc-chip" data-mpc="4">1 cm = 4 m</button>
+                    <button type="button" class="chip esc-chip" data-mpc="5">1 cm = 5 m</button>
+                </div>
+                <p class="esc-plan" id="esc-plan"></p>
+
+                <div class="esc-visual">
+                    <div class="viz-wrapper">
+                        <svg id="esc-svg" viewBox="0 0 560 380" preserveAspectRatio="xMidYMid meet" role="img"
+                             aria-label="축척에 맞추어 그린 축도와, 높이를 잴 수 있는 눈금자"></svg>
+                    </div>
+                    <div class="esc-side">
+                        <h4>② 축도에서 높이를 재어 보세요</h4>
+                        <div class="input-group left">
+                            <label for="esc-measure">잰 높이</label>
+                            <input type="number" id="esc-measure" step="0.1" min="0" max="20" placeholder="예: 5.7">
+                            <span class="unit">cm</span>
+                            <button type="button" id="esc-check">확인</button>
+                        </div>
+                        <p class="err" id="esc-err"></p>
+                        <div class="esc-result" id="esc-result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="sub">③ 이 문제의 조건은 1번 활동의 몇 번 도형과 비슷한가요?</h3>
+            <div class="esc-quiz">
+                <div class="btn-row" id="esc-quiz-btns">
+                    <button type="button" class="chip eq-chip" data-pick="1">(1)</button>
+                    <button type="button" class="chip eq-chip" data-pick="2">(2)</button>
+                    <button type="button" class="chip eq-chip" data-pick="3">(3)</button>
+                    <button type="button" class="chip eq-chip" data-pick="4">(4)</button>
+                    <button type="button" class="chip eq-chip" data-pick="5">(5)</button>
+                    <button type="button" class="chip eq-chip" data-pick="6">(6)</button>
+                </div>
+                <div class="esc-quiz-fb" id="esc-quiz-fb"></div>
+            </div>
+        </section>
+
+        <!-- ============ 3. 탈레스 (모둠과제) ============ -->
+        <section id="thales" class="container">
+            <h2>3. 탈레스는 어떻게 피라미드의 높이를 쟀을까?</h2>
+            <p class="lead"><b>[모둠과제]</b> 탈레스는 기원전 620년쯤 그리스 이오니아 해안의 밀레토스에서 태어났습니다. 소금·기름 등을 거래하는 상인으로 많은 재산을 모아 이집트에 유학했고, 그곳에서 수학과 천문학을 배워 <b>짧은 막대 하나로 피라미드의 높이를 알아내</b> 당시 사람들을 놀라게 했습니다.</p>
+
+            <div class="thales-pic">
+                <svg viewBox="0 0 520 230" role="img" aria-label="같은 시각 피라미드의 그림자와 막대의 그림자를 재어 피라미드의 높이를 구하는 그림">
+                    <line x1="20" y1="180" x2="500" y2="180" stroke="#94a3b8" stroke-width="3"/>
+                    <!-- 피라미드 그림자 -->
+                    <polygon points="160,180 260,180 260,187 160,190" fill="#cbd5e1"/>
+                    <!-- 피라미드 -->
+                    <polygon points="110,60 160,180 60,180" fill="#e6cba4" stroke="#b08d57" stroke-width="2"/>
+                    <line x1="110" y1="60" x2="110" y2="180" stroke="#b91c1c" stroke-width="2.5" stroke-dasharray="6 4"/>
+                    <!-- 햇빛 -->
+                    <line x1="110" y1="60" x2="260" y2="180" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8 5"/>
+                    <!-- 막대 -->
+                    <line x1="380" y1="180" x2="380" y2="120" stroke="#2563eb" stroke-width="6" stroke-linecap="round"/>
+                    <polygon points="380,180 455,180 455,186 380,188" fill="#cbd5e1"/>
+                    <line x1="380" y1="120" x2="455" y2="180" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8 5"/>
+                    <text x="110" y="205" class="es" text-anchor="middle">피라미드</text>
+                    <text x="210" y="205" class="es" text-anchor="middle">그림자</text>
+                    <text x="370" y="146" class="es" text-anchor="end" fill="#2563eb" font-weight="bold">막대</text>
+                    <text x="418" y="205" class="es" text-anchor="middle">그림자</text>
+                    <text x="118" y="118" class="es" fill="#b91c1c" font-weight="bold">높이</text>
+                </svg>
+            </div>
+
+            <p class="eqline">피라미드 높이 : 피라미드 그림자 길이 = 막대 길이 : 막대 그림자 길이</p>
+
+            <div class="trend-box">
+                <div class="sim-controls">
+                    <div class="ctrl">
+                        <label for="th-stick">막대의 그림자 길이</label>
+                        <input type="range" id="th-stick" class="slider" min="0.5" max="3" step="0.1" value="1.4">
+                        <div class="angle-display"><span id="th-stick-out">1.4</span> m <span class="tiny">(막대 길이는 1 m)</span></div>
+                    </div>
+                    <div class="ctrl">
+                        <label for="th-pyr">피라미드의 그림자 길이</label>
+                        <input type="range" id="th-pyr" class="slider size" min="80" max="220" step="1" value="200">
+                        <div class="angle-display"><span id="th-pyr-out">200</span> m</div>
+                    </div>
+                </div>
+                <div class="th-calc" id="th-calc"></div>
+            </div>
+
+            <h3 class="sub">탈레스의 방법과 에스컬레이터 방법을 비교해 봅시다</h3>
+            <p class="lead">아래 문장이 <b>공통점</b>인지 <b>차이점</b>인지 골라 보세요.</p>
+            <p class="probe-progress" id="sort-progress">분류한 문장 : <b>0</b> / 8</p>
+            <div class="sort-list" id="sort-list">
+                <div class="sort-item" data-kind="same">직접 재기 어려운 높이를 구하는 방법이다.</div>
+                <div class="sort-item" data-kind="same">닮은 도형의 성질을 이용한다.</div>
+                <div class="sort-item" data-kind="same">대응하는 변의 길이의 비가 일정하다는 점을 쓴다.</div>
+                <div class="sort-item" data-kind="same">직접 잴 수 있는 길이를 재어서 계산으로 구한다.</div>
+                <div class="sort-item" data-kind="diff">탈레스는 햇빛으로 각을 같게 만들었고, 에스컬레이터는 각도기로 각을 정해 그렸다.</div>
+                <div class="sort-item" data-kind="diff">탈레스는 실제 그림자를 재고, 에스컬레이터는 종이에 그린 축도를 잰다.</div>
+                <div class="sort-item" data-kind="diff">탈레스는 각의 크기를 몰라도 되지만, 에스컬레이터는 각의 크기(35°)를 알아야 한다.</div>
+                <div class="sort-item" data-kind="diff">탈레스는 피라미드와 막대를 비교하고, 에스컬레이터는 실제와 축도를 비교한다.</div>
+            </div>
+            <div class="btn-row center">
+                <button type="button" class="ghost-btn" id="sort-all">모두 확인하기</button>
+                <button type="button" class="ghost-btn" id="sort-reset">다시 하기</button>
+            </div>
+
+            <div class="probe-summary" id="sort-summary">
+                <h3>정리해 봅시다</h3>
+                <p>두 방법 모두 <b>닮은 도형에서는 대응하는 변의 길이의 비가 일정하다</b>는 성질을 씁니다. 직접 잴 수 없는 길이를, 잴 수 있는 길이의 <b>비</b>로 바꾸어 구한 것이지요.</p>
+                <p class="q">🤔 그런데 문제를 만날 때마다 축도를 그리고 자로 재는 일은 번거롭습니다.<br>
+                <b>각의 크기만 알면 변의 비를 바로 알 수 있다면</b> 그림을 그리지 않아도 되지 않을까요?<br>
                 → 다음 활동에서 <b>각이 정해지면 변의 비도 정해지는지</b> 확인해 봅시다.</p>
             </div>
         </section>
 
-        <!-- ============ 2. 각과 변의 비 (탐구) ============ -->
+        <!-- ============ 4. 각과 변의 비 (탐구) ============ -->
         <section id="similar" class="container">
-            <h2>2. 각이 같으면 변의 비도 같을까요?</h2>
+            <h2>4. 각이 같으면 변의 비도 같을까요?</h2>
             <p class="lead">직각삼각형에서 각 A의 크기를 <b>하나로 정해 두고</b>, 삼각형만 크게·작게 바꿔 봅시다. 세 변의 길이는 모두 달라지는데, <b>두 변의 길이의 비</b>도 함께 달라질까요?</p>
 
             <div class="trend-box">
@@ -281,13 +429,13 @@
                 </div>
             </div>
 
-            <p class="tip">💡 크기가 다른 세 삼각형은 <b>모두 닮은 도형</b>입니다. 닮은 도형에서는 대응하는 변의 길이의 비가 일정하지요. 그래서 <b>각 A만 같으면 삼각형이 아무리 커지고 작아져도 두 변의 길이의 비는 변하지 않습니다.</b><br>그렇다면 이 세 가지 비는 <b>각 A의 크기만으로 정해지는 값</b>이라는 뜻입니다. 값마다 이름을 붙여 주면 편리하겠지요? → <b>3번 활동에서 이름을 붙여 봅시다.</b></p>
+            <p class="tip">💡 크기가 다른 세 삼각형은 <b>모두 닮은 도형</b>입니다. 닮은 도형에서는 대응하는 변의 길이의 비가 일정하지요. 그래서 <b>각 A만 같으면 삼각형이 아무리 커지고 작아져도 두 변의 길이의 비는 변하지 않습니다.</b><br>그렇다면 이 세 가지 비는 <b>각 A의 크기만으로 정해지는 값</b>이라는 뜻입니다. 값마다 이름을 붙여 주면 편리하겠지요? → <b>5번 활동에서 이름을 붙여 봅시다.</b></p>
         </section>
 
-        <!-- ============ 3. 정의 ============ -->
+        <!-- ============ 5. 정의 ============ -->
         <section id="definition" class="container">
-            <h2>3. 삼각비란 무엇인가요?</h2>
-            <p class="lead">2번 활동에서 확인했듯이, <b>각 A가 정해지면 두 변의 길이의 비는 하나로 정해집니다.</b> 이 세 가지 비에 각각 이름을 붙인 것이 바로 삼각비입니다. (∠C = 90°인 직각삼각형 ABC)</p>
+            <h2>5. 삼각비란 무엇인가요?</h2>
+            <p class="lead">4번 활동에서 확인했듯이, <b>각 A가 정해지면 두 변의 길이의 비는 하나로 정해집니다.</b> 이 세 가지 비에 각각 이름을 붙인 것이 바로 삼각비입니다. (∠C = 90°인 직각삼각형 ABC)</p>
             <div class="definition-grid">
                 <div class="svg-container">
                     <svg viewBox="0 0 270 175" class="def-svg" role="img"
@@ -337,13 +485,13 @@
                     </div>
                 </div>
             </div>
-            <p class="tip">💡 색을 따라가 보세요. <span class="hi b">파란색은 높이</span>, <span class="ba b">주황색은 밑변</span>, <span class="hy b">회색은 빗변</span>입니다. 위 2번 표와 아래 5번 그림에서도 같은 색을 씁니다.</p>
+            <p class="tip">💡 색을 따라가 보세요. <span class="hi b">파란색은 높이</span>, <span class="ba b">주황색은 밑변</span>, <span class="hy b">회색은 빗변</span>입니다. 위 4번 표와 아래 7번 그림에서도 같은 색을 씁니다.</p>
         </section>
 
-        <!-- ============ 4. 특수각 ============ -->
+        <!-- ============ 6. 특수각 ============ -->
         <section id="values" class="container">
             <div class="sec-head">
-                <h2>4. 특수각의 삼각비</h2>
+                <h2>6. 특수각의 삼각비</h2>
                 <div class="btn-row">
                     <button type="button" class="ghost-btn" id="reveal-all">전체 보기</button>
                     <button type="button" class="ghost-btn" id="hide-all">전체 숨기기</button>
@@ -394,9 +542,9 @@
             <p class="note"><b>주의</b> — tan 90°는 값이 <b>무한대(∞)</b>인 것이 아니라, <b>정할 수 없습니다</b>. 90°에서는 밑변의 길이가 0이 되어 나눗셈을 할 수 없기 때문입니다.</p>
         </section>
 
-        <!-- ============ 5. 사분원 ============ -->
+        <!-- ============ 7. 사분원 ============ -->
         <section id="trends" class="container">
-            <h2>5. 사분원에서 보는 삼각비</h2>
+            <h2>7. 사분원에서 보는 삼각비</h2>
             <p class="lead">반지름이 <b>1</b>인 사분원에서는 삼각비가 곧 <b>선분의 길이</b>가 됩니다. 각 A를 움직이며 세 선분이 어떻게 변하는지 살펴보세요.</p>
             <div class="trend-box">
                 <div class="slider-container">
@@ -433,9 +581,9 @@
             </div>
         </section>
 
-        <!-- ============ 6. 삼각비의 표 ============ -->
+        <!-- ============ 8. 삼각비의 표 ============ -->
         <section id="tables" class="container">
-            <h2>6. 삼각비의 표와 계산기</h2>
+            <h2>8. 삼각비의 표와 계산기</h2>
             <p class="lead">0°부터 90°까지 1° 간격의 삼각비 표입니다. 각도를 입력하면 표에서 그 줄을 찾아 줍니다.</p>
             <div class="calc-box">
                 <div class="input-group">
@@ -461,10 +609,10 @@
             </div>
         </section>
 
-        <!-- ============ 7. 실생활 활용 ============ -->
+        <!-- ============ 9. 실생활 활용 ============ -->
         <section id="apply" class="container">
-            <h2>7. 삼각비의 실생활 활용</h2>
-            <p class="lead">직접 잴 수 없는 길이를 삼각비로 구해 봅시다. (삼각비 값은 위 6번 표를 이용하세요.)</p>
+            <h2>9. 삼각비의 실생활 활용</h2>
+            <p class="lead">직접 잴 수 없는 길이를 삼각비로 구해 봅시다. (삼각비 값은 위 8번 표를 이용하세요.)</p>
 
             <article class="problem">
                 <h3>문제 1. 나무의 높이</h3>

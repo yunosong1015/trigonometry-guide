@@ -377,6 +377,100 @@ button { font: inherit; cursor: pointer; }
 .probe-summary p { margin-bottom: 0.6rem; }
 .probe-summary .q { padding-top: 0.6rem; border-top: 1px dashed #86efac; color: #14532d; }
 
+/* ---------------- 2. 에스컬레이터 / 3. 탈레스 ---------------- */
+h3.sub {
+    margin: 1.75rem 0 0.9rem; padding-left: 0.7rem;
+    border-left: 4px solid #cbd5e1; font-size: 1.02rem;
+}
+
+.esc-intro {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 1.25rem; align-items: center;
+}
+@media (max-width: 780px) { .esc-intro { grid-template-columns: 1fr; } }
+.esc-pic svg, .thales-pic svg { width: 100%; height: auto; background: #f8fafc; border-radius: 10px; }
+.esc-pic .es, .thales-pic .es { font-size: 14px; fill: var(--ink); }
+#esc-svg text { font-family: 'D2Coding', monospace; }
+
+.hintline {
+    margin-top: 0.7rem; padding: 0.75rem 0.9rem; font-size: 0.9rem;
+    background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 8px;
+}
+
+.esc-plan {
+    text-align: center; margin: 1rem 0 0.5rem; font-weight: 700;
+    color: var(--navy); font-size: 0.98rem;
+}
+.esc-plan .big { color: var(--primary); font-family: 'D2Coding', monospace; }
+
+.esc-visual {
+    display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 1.25rem; align-items: center;
+}
+@media (max-width: 860px) { .esc-visual { grid-template-columns: 1fr; } }
+#esc-svg { width: 100%; height: auto; max-height: 400px; display: block; }
+.esc-side h4 { font-size: 0.98rem; color: var(--navy); margin-bottom: 0.7rem; }
+.input-group.left { justify-content: flex-start; }
+.input-group .unit { font-weight: 700; color: var(--ink-soft); }
+#esc-check {
+    padding: 0.55rem 1.2rem; background: var(--primary); color: #fff;
+    border: none; border-radius: 8px; font-weight: 700;
+}
+#esc-check:hover { background: #1d4ed8; }
+
+.esc-result {
+    display: none; margin-top: 0.6rem; padding: 0.85rem 1rem; border-radius: 8px;
+    font-size: 0.92rem; line-height: 1.75;
+}
+.esc-result.open { display: block; }
+.esc-result.good { background: #ecfdf5; border-left: 4px solid #16a34a; }
+.esc-result.retry { background: #fffbeb; border-left: 4px solid #f59e0b; }
+.esc-result .calc { font-family: 'D2Coding', monospace; font-weight: 700; color: var(--navy); }
+
+.esc-quiz-fb {
+    display: none; margin-top: 0.9rem; padding: 0.9rem 1rem; border-radius: 8px;
+    font-size: 0.93rem; line-height: 1.75;
+    background: #eff6ff; border-left: 4px solid var(--primary);
+}
+.esc-quiz-fb.open { display: block; }
+.eq-chip.right { background: #16a34a; color: #fff; border-color: #16a34a; }
+.eq-chip.wrong { background: #fee2e2; color: #7f1d1d; border-color: var(--tan); }
+
+.eqline {
+    margin: 1rem 0; padding: 0.8rem 1rem; text-align: center;
+    background: #f8fafc; border: 1px dashed var(--line); border-radius: 8px;
+    font-weight: 700; color: var(--navy); font-size: 0.95rem;
+}
+.tiny { font-size: 0.75rem; font-weight: 400; color: var(--ink-soft); }
+
+.th-calc {
+    margin-top: 1.25rem; padding: 1rem 1.1rem; border-radius: 10px;
+    background: #f8fafc; border: 1px solid var(--line); text-align: center;
+    font-family: 'D2Coding', monospace; line-height: 2;
+}
+.th-calc .res { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+
+/* 공통점 / 차이점 분류 */
+.sort-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.sort-item {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem;
+    padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: 10px;
+    font-size: 0.92rem; background: #fff;
+}
+.sort-item .txt { flex: 1 1 260px; min-width: 0; }
+.sort-item .sbtns { display: flex; gap: 0.4rem; flex: 0 0 auto; }
+.sort-item .sbtn {
+    padding: 0.35rem 0.8rem; font-size: 0.82rem; font-weight: 700;
+    border: 1px solid var(--line); background: #f8fafc; color: var(--ink-soft);
+    border-radius: 999px;
+}
+.sort-item .sbtn:hover { background: #e0e7ff; color: var(--primary); }
+.sort-item .sbtn.right { background: #dcfce7; border-color: #16a34a; color: #14532d; }
+.sort-item .sbtn.wrong { background: #fee2e2; border-color: var(--tan); color: #7f1d1d; }
+.sort-item.done { background: #f8fafc; }
+.sort-item.done.same { border-left: 5px solid #16a34a; }
+.sort-item.done.diff { border-left: 5px solid #f59e0b; }
+
 /* ---------------- 2. 크기와 비 ---------------- */
 .sim-controls {
     display: grid;

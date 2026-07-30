@@ -92,7 +92,242 @@
         probeRefresh();
 
         /* ===================================================
-           2. 크기가 달라져도 비는 같을까요? (닮음 활동)
+           2. 에스컬레이터 — 축도를 그려 높이 구하기
+           =================================================== */
+        var escSvg = document.getElementById('esc-svg');
+        var escPlan = document.getElementById('esc-plan');
+        var escChips = document.querySelectorAll('.esc-chip');
+        var escInput = document.getElementById('esc-measure');
+        var escCheck = document.getElementById('esc-check');
+        var escErr = document.getElementById('esc-err');
+        var escResult = document.getElementById('esc-result');
+
+        var ESC = { deg: 35, real: 20, mpc: 2, PPC: 50, OX: 55, OY: 330 };   /* PPC = 1cm 당 SVG 길이 */
+        var ESC_TRUE = ESC.real * Math.sin(ESC.deg * Math.PI / 180);          /* 11.47 m */
+
+        function drawEsc() {
+            if (!escSvg) return;
+            var mpc = ESC.mpc;
+            var lenCm = ESC.real / mpc;                       /* 축도에서의 빗변 길이(cm) */
+            var rad = ESC.deg * Math.PI / 180;
+            var hCm = lenCm * Math.sin(rad);
+            var bCm = lenCm * Math.cos(rad);
+
+            var P = ESC.PPC, OX = ESC.OX, OY = ESC.OY;
+            var CX = OX + bCm * P, TY = OY - hCm * P;
+
+            if (escPlan) {
+                escPlan.innerHTML = '축척 <span class="big">1 cm = ' + mpc + ' m</span> → 20 m 를 ' +
+                    '<span class="big">' + lenCm.toFixed(0) + ' cm</span> 로 그리고, 각도기로 ' +
+                    '<span class="big">35°</span> 를 맞춥니다.';
+            }
+
+            while (escSvg.firstChild) escSvg.removeChild(escSvg.firstChild);
+
+            /* 지면 */
+            escSvg.appendChild(el('line', { x1: OX - 25, y1: OY, x2: OX + bCm * P + 40, y2: OY, stroke: '#cbd5e1', 'stroke-width': 3 }));
+            /* 밑변 · 빗변 · 높이 */
+            escSvg.appendChild(el('line', { x1: OX, y1: OY, x2: CX, y2: OY, stroke: COLOR.cos, 'stroke-width': 5 }));
+            escSvg.appendChild(el('line', { x1: OX, y1: OY, x2: CX, y2: TY, stroke: COLOR.ray, 'stroke-width': 6 }));
+            escSvg.appendChild(el('line', { x1: CX, y1: OY, x2: CX, y2: TY, stroke: COLOR.sin, 'stroke-width': 6 }));
+            escSvg.appendChild(el('path', {
+                d: 'M ' + (CX - 16) + ' ' + OY + ' L ' + (CX - 16) + ' ' + (OY - 16) + ' L ' + CX + ' ' + (OY - 16),
+                fill: 'none', stroke: COLOR.ray, 'stroke-width': 2
+            }));
+            /* 각도기 자리 */
+            escSvg.appendChild(el('path', {
+                d: 'M ' + (OX + 46) + ' ' + OY + ' A 46 46 0 0 0 ' + (OX + 46 * Math.cos(rad)) + ' ' + (OY - 46 * Math.sin(rad)),
+                fill: 'none', stroke: COLOR.ink, 'stroke-width': 2.5
+            }));
+            escSvg.appendChild(txt('35°', { x: OX + 74, y: OY - 20, 'font-size': 22, 'font-weight': 'bold', fill: COLOR.ink }));
+            escSvg.appendChild(txt(lenCm.toFixed(0) + ' cm', {
+                x: OX + bCm * P / 2 - 24 * Math.sin(rad), y: OY - hCm * P / 2 - 24 * Math.cos(rad),
+                'font-size': 22, 'font-weight': 'bold', fill: COLOR.ray, 'text-anchor': 'middle',
+                transform: 'rotate(' + (-ESC.deg) + ', ' + (OX + bCm * P / 2 - 24 * Math.sin(rad)) + ', ' + (OY - hCm * P / 2 - 24 * Math.cos(rad)) + ')'
+            }));
+
+            /* --- 높이에 붙는 눈금자 --- */
+            var rx = CX + 4;
+            escSvg.appendChild(el('line', { x1: rx, y1: OY, x2: rx, y2: OY - 6.6 * P, stroke: '#94a3b8', 'stroke-width': 2 }));
+            for (var i = 0; i <= 66; i++) {
+                var v = i / 10;                                   /* cm */
+                var y = OY - v * P;
+                var major = (i % 10 === 0), medium = (i % 5 === 0);
+                var len = major ? 20 : (medium ? 13 : 7);
+                escSvg.appendChild(el('line', {
+                    x1: rx, y1: y, x2: rx + len, y2: y,
+                    stroke: major ? '#475569' : '#94a3b8', 'stroke-width': major ? 2 : 1.4
+                }));
+                if (major) {
+                    escSvg.appendChild(txt(String(i / 10), {
+                        x: rx + 26, y: y + 8, 'font-size': 20, fill: '#475569'
+                    }));
+                }
+            }
+            escSvg.appendChild(txt('cm', { x: rx + 20, y: OY - 6.6 * P - 10, 'font-size': 18, fill: '#94a3b8' }));
+            /* 꼭대기 안내선 */
+            escSvg.appendChild(el('line', {
+                x1: CX, y1: TY, x2: rx + 60, y2: TY, stroke: COLOR.sin, 'stroke-width': 1.6, 'stroke-dasharray': '6 4'
+            }));
+
+            escChips.forEach(function (c) {
+                c.classList.toggle('active', parseFloat(c.dataset.mpc) === mpc);
+            });
+        }
+
+        if (escSvg) {
+            escChips.forEach(function (c) {
+                c.addEventListener('click', function () {
+                    ESC.mpc = parseFloat(c.dataset.mpc);
+                    drawEsc();
+                    if (escResult) escResult.classList.remove('open');
+                    if (escInput) escInput.value = '';
+                    if (escErr) escErr.textContent = '';
+                });
+            });
+            drawEsc();
+        }
+
+        function escDoCheck() {
+            if (!escInput) return;
+            var raw = escInput.value.trim();
+            if (raw === '') { escErr.textContent = '잰 길이를 적어 주세요.'; escResult.classList.remove('open'); return; }
+            var cm = Number(raw);
+            if (!isFinite(cm) || cm <= 0) { escErr.textContent = '0보다 큰 숫자를 적어 주세요.'; escResult.classList.remove('open'); return; }
+            escErr.textContent = '';
+
+            var real = cm * ESC.mpc;
+            var gap = Math.abs(real - ESC_TRUE);
+            var good = gap <= 0.9;
+
+            escResult.className = 'esc-result open ' + (good ? 'good' : 'retry');
+            escResult.innerHTML =
+                '<div class="calc">실제 높이 = ' + cm.toFixed(1) + ' cm × ' + ESC.mpc + ' m/cm = ' + real.toFixed(1) + ' m</div>' +
+                (good
+                    ? '<p>✅ 잘 쟀습니다! 축도는 실제 에스컬레이터와 <b>닮은 도형</b>이므로, 축도에서 잰 높이에 축척을 곱하면 실제 높이가 됩니다.</p>'
+                    : '<p>🔎 눈금을 다시 확인해 보세요. 빗변이 ' + (ESC.real / ESC.mpc).toFixed(0) +
+                      ' cm일 때 높이는 그보다 <b>짧아야</b> 합니다.</p>') +
+                '<p class="tiny">참고 : 나중에 배울 삼각비로 정확히 구하면 약 <b>' + ESC_TRUE.toFixed(2) + ' m</b> 입니다.</p>';
+        }
+        if (escCheck) escCheck.addEventListener('click', escDoCheck);
+        if (escInput) escInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { e.preventDefault(); escDoCheck(); }
+        });
+
+        /* (3) 1번 활동의 몇 번과 비슷한가 */
+        var eqChips = document.querySelectorAll('.eq-chip');
+        var eqFb = document.getElementById('esc-quiz-fb');
+        eqChips.forEach(function (c) {
+            c.addEventListener('click', function () {
+                var pick = c.dataset.pick;
+                eqChips.forEach(function (x) { x.classList.remove('right', 'wrong'); });
+                document.querySelector('.eq-chip[data-pick="6"]').classList.add('right');
+                if (pick !== '6') c.classList.add('wrong');
+                if (eqFb) {
+                    eqFb.classList.add('open');
+                    eqFb.innerHTML = '<b>정답 : (6)번 도형</b>' +
+                        '<p>두 문제 모두 <b>한 각의 크기</b>와 <b>한 변의 길이</b>만 주어졌습니다. ' +
+                        ((pick === '4' || pick === '5')
+                            ? '(4)·(5)도 조건의 모양은 같지만, 그 각이 30°·60°라서 정삼각형의 성질로 풀 수 있었습니다. 35°와 50°는 그럴 수 없습니다.</p>'
+                            : '(2)·(3)처럼 변이 두 개 주어진 것도, (1)처럼 닮은 도형이 함께 주어진 것도 아닙니다.</p>') +
+                        '<p>그래서 <b>축도를 그려 재는 방법</b>을 쓴 것입니다.</p>';
+                }
+            });
+        });
+
+        /* ===================================================
+           3. 탈레스 — 비례식과 공통점 · 차이점 분류
+           =================================================== */
+        var thStick = document.getElementById('th-stick');
+        var thPyr = document.getElementById('th-pyr');
+        var thStickOut = document.getElementById('th-stick-out');
+        var thPyrOut = document.getElementById('th-pyr-out');
+        var thCalc = document.getElementById('th-calc');
+
+        function drawThales() {
+            if (!thStick || !thPyr) return;
+            var sShadow = parseFloat(thStick.value);
+            var pShadow = parseFloat(thPyr.value);
+            var stick = 1;                                   /* 막대 길이 1 m */
+            var h = pShadow * stick / sShadow;
+            thStickOut.textContent = sShadow.toFixed(1);
+            thPyrOut.textContent = pShadow.toFixed(0);
+            if (thCalc) {
+                thCalc.innerHTML =
+                    '피라미드 높이 : ' + pShadow.toFixed(0) + ' = 1 : ' + sShadow.toFixed(1) + '<br>' +
+                    '피라미드 높이 = ' + pShadow.toFixed(0) + ' × 1 ÷ ' + sShadow.toFixed(1) +
+                    ' = <span class="res">약 ' + h.toFixed(1) + ' m</span>';
+            }
+        }
+        if (thStick && thPyr) {
+            thStick.addEventListener('input', drawThales);
+            thPyr.addEventListener('input', drawThales);
+            drawThales();
+        }
+
+        /* 공통점 / 차이점 분류 */
+        var sortItems = document.querySelectorAll('.sort-item');
+        var sortProgress = document.getElementById('sort-progress');
+        var sortSummary = document.getElementById('sort-summary');
+        var sortAllBtn = document.getElementById('sort-all');
+        var sortResetBtn = document.getElementById('sort-reset');
+
+        sortItems.forEach(function (item) {
+            var text = item.textContent.trim();
+            item.innerHTML = '';
+            var span = document.createElement('span');
+            span.className = 'txt';
+            span.textContent = text;
+            var wrap = document.createElement('span');
+            wrap.className = 'sbtns';
+            [['same', '공통점'], ['diff', '차이점']].forEach(function (pair) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'sbtn';
+                b.dataset.kind = pair[0];
+                b.textContent = pair[1];
+                b.addEventListener('click', function () { sortOpen(item, pair[0]); });
+                wrap.appendChild(b);
+            });
+            item.appendChild(span);
+            item.appendChild(wrap);
+        });
+
+        function sortRefresh() {
+            var n = 0;
+            sortItems.forEach(function (i) { if (i.dataset.done === '1') n++; });
+            if (sortProgress) sortProgress.innerHTML = '분류한 문장 : <b>' + n + '</b> / ' + sortItems.length;
+            if (sortSummary) sortSummary.classList.toggle('open', n === sortItems.length);
+        }
+        function sortOpen(item, choice) {
+            item.dataset.done = '1';
+            var kind = item.dataset.kind;
+            item.classList.add('done', kind);
+            item.querySelectorAll('.sbtn').forEach(function (b) {
+                b.disabled = true;
+                b.classList.remove('right', 'wrong');
+                if (b.dataset.kind === kind) b.classList.add('right');
+                else if (choice && b.dataset.kind === choice) b.classList.add('wrong');
+            });
+            sortRefresh();
+        }
+        if (sortAllBtn) sortAllBtn.addEventListener('click', function () {
+            sortItems.forEach(function (i) { sortOpen(i, null); });
+        });
+        if (sortResetBtn) sortResetBtn.addEventListener('click', function () {
+            sortItems.forEach(function (i) {
+                delete i.dataset.done;
+                i.classList.remove('done', 'same', 'diff');
+                i.querySelectorAll('.sbtn').forEach(function (b) {
+                    b.disabled = false; b.classList.remove('right', 'wrong');
+                });
+            });
+            sortRefresh();
+        });
+        sortRefresh();
+
+        /* ===================================================
+           4. 크기가 달라져도 비는 같을까요? (닮음 활동)
            =================================================== */
         var simSvg = document.getElementById('sim-svg');
         var simAngle = document.getElementById('sim-angle');
@@ -244,7 +479,7 @@
         }
 
         /* ===================================================
-           3. 특수각 표 — 눌러서 값 확인
+           5. 특수각 표 — 눌러서 값 확인
            =================================================== */
         var specialCells = document.querySelectorAll('.special-table td');
         specialCells.forEach(function (cell) {
@@ -264,7 +499,7 @@
         });
 
         /* ===================================================
-           4. 사분원 시각화
+           6. 사분원 시각화
            =================================================== */
         var svg = document.getElementById('trig-svg');
         var range = document.getElementById('trend-range');
@@ -490,7 +725,7 @@
         }
 
         /* ===================================================
-           5. 삼각비의 표 (0°~90°) + 각도 찾기
+           7. 삼각비의 표 (0°~90°) + 각도 찾기
            =================================================== */
         var tbody = document.getElementById('trig-table-body');
         var rows = {};
@@ -560,7 +795,7 @@
         });
 
         /* ===================================================
-           6. 활동 전환 — 메뉴를 누르면 그 활동만 보입니다
+           8. 활동 전환 — 메뉴를 누르면 그 활동만 보입니다
            =================================================== */
         var sections = document.querySelectorAll('main > section');
         var navBar = document.querySelector('.section-nav');
@@ -630,6 +865,7 @@
             }
 
             /* 숨어 있던 그림을 다시 그립니다 */
+            drawEsc();
             drawSimilar();
             drawUnitCircle();
 
@@ -658,7 +894,7 @@
         showSection(window.location.hash.slice(1) || (sections[0] && sections[0].id), false);
 
         /* ===================================================
-           7. 실생활 문제 - 풀이 보기
+           9. 실생활 문제 - 풀이 보기
            =================================================== */
         document.querySelectorAll('.sol-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
