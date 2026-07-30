@@ -278,6 +278,63 @@ button { font: inherit; cursor: pointer; }
 }
 .special-table td.show::after { opacity: 0; }
 
+/* ---------------- 1. 복습 · 도입 ---------------- */
+.probe-progress {
+    font-weight: 700; color: var(--primary);
+    background: #eff6ff; border-radius: 999px;
+    display: inline-block; padding: 0.3rem 0.9rem; font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+}
+.probe-grid {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem;
+}
+@media (max-width: 900px) { .probe-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .probe-grid { grid-template-columns: 1fr; } }
+
+.probe-card {
+    border: 1px solid var(--line); border-radius: 10px; padding: 0.9rem;
+    display: flex; flex-direction: column;
+}
+.probe-card.probe-key { border-color: #fca5a5; background: #fffbfb; }
+.probe-card h4 { font-size: 1rem; color: var(--navy); margin-bottom: 0.3rem; font-family: 'D2Coding', monospace; }
+.probe-fig { background: #f8fafc; border-radius: 8px; padding: 0.25rem; }
+.probe-fig svg { width: 100%; height: auto; display: block; }
+.probe-fig .pl { font-size: 14px; font-weight: 700; fill: var(--ink); }
+.probe-fig .pm { font-size: 13px; fill: var(--ink); }
+.probe-fig .px { fill: var(--tan); font-weight: 700; }
+
+.probe-btns { display: flex; gap: 0.4rem; margin-top: 0.7rem; }
+.probe-btn {
+    flex: 1; padding: 0.45rem 0.3rem; font-size: 0.85rem; font-weight: 700;
+    border: 1px solid var(--line); background: #fff; color: var(--ink-soft);
+    border-radius: 8px; transition: all 0.15s;
+}
+.probe-btn:hover { background: #eff6ff; border-color: var(--primary); color: var(--primary); }
+.probe-btn.right { background: #dcfce7; border-color: #16a34a; color: #14532d; }
+.probe-btn.wrong { background: #fee2e2; border-color: var(--tan); color: #7f1d1d; }
+.probe-btn:disabled { cursor: default; }
+.probe-btn:disabled:hover { background: #fff; border-color: var(--line); color: var(--ink-soft); }
+.probe-btn.right:disabled:hover { background: #dcfce7; border-color: #16a34a; color: #14532d; }
+.probe-btn.wrong:disabled:hover { background: #fee2e2; border-color: var(--tan); color: #7f1d1d; }
+
+.probe-feedback {
+    display: none; margin-top: 0.7rem; padding: 0.7rem 0.8rem;
+    background: #f8fafc; border-left: 4px solid var(--primary);
+    border-radius: 8px; font-size: 0.85rem; line-height: 1.65;
+}
+.probe-feedback.open { display: block; }
+.probe-feedback p { margin-top: 0.4rem; }
+.probe-card.probe-key .probe-feedback { border-left-color: var(--tan); background: #fef2f2; }
+
+.probe-summary {
+    display: none; margin-top: 1.5rem; padding: 1.1rem 1.25rem;
+    background: #ecfdf5; border: 1px solid #86efac; border-radius: 10px;
+}
+.probe-summary.open { display: block; }
+.probe-summary h3 { color: #14532d; margin-bottom: 0.6rem; }
+.probe-summary p { margin-bottom: 0.6rem; }
+.probe-summary .q { padding-top: 0.6rem; border-top: 1px dashed #86efac; color: #14532d; }
+
 /* ---------------- 2. 크기와 비 ---------------- */
 .sim-controls {
     display: grid;

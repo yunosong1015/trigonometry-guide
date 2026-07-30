@@ -34,7 +34,65 @@
         }
 
         /* ===================================================
-           1. 크기가 달라져도 비는 같을까요? (닮음 활동)
+           1. 복습 · 도입 — 어떤 것을 구할 수 있을까?
+           =================================================== */
+        var probeCards = document.querySelectorAll('.probe-card');
+        var probeProgress = document.getElementById('probe-progress');
+        var probeSummary = document.getElementById('probe-summary');
+        var probeAllBtn = document.getElementById('probe-all');
+        var probeResetBtn = document.getElementById('probe-reset');
+
+        function probeCount() {
+            var n = 0;
+            probeCards.forEach(function (c) { if (c.dataset.done === '1') n++; });
+            return n;
+        }
+        function probeRefresh() {
+            var n = probeCount();
+            if (probeProgress) probeProgress.innerHTML = '확인한 도형 : <b>' + n + '</b> / ' + probeCards.length;
+            if (probeSummary) probeSummary.classList.toggle('open', n === probeCards.length);
+        }
+        function probeOpen(card, choice) {
+            card.dataset.done = '1';
+            var answer = card.dataset.answer;
+            card.querySelectorAll('.probe-btn').forEach(function (btn) {
+                btn.disabled = true;
+                btn.classList.remove('right', 'wrong');
+                if (btn.dataset.choice === answer) btn.classList.add('right');
+                else if (choice && btn.dataset.choice === choice) btn.classList.add('wrong');
+            });
+            var fb = card.querySelector('.probe-feedback');
+            if (fb) fb.classList.add('open');
+            probeRefresh();
+        }
+        function probeReset(card) {
+            delete card.dataset.done;
+            card.querySelectorAll('.probe-btn').forEach(function (btn) {
+                btn.disabled = false;
+                btn.classList.remove('right', 'wrong');
+            });
+            var fb = card.querySelector('.probe-feedback');
+            if (fb) fb.classList.remove('open');
+        }
+
+        probeCards.forEach(function (card) {
+            card.querySelectorAll('.probe-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    probeOpen(card, btn.dataset.choice);
+                });
+            });
+        });
+        if (probeAllBtn) probeAllBtn.addEventListener('click', function () {
+            probeCards.forEach(function (c) { probeOpen(c, null); });
+        });
+        if (probeResetBtn) probeResetBtn.addEventListener('click', function () {
+            probeCards.forEach(probeReset);
+            probeRefresh();
+        });
+        probeRefresh();
+
+        /* ===================================================
+           2. 크기가 달라져도 비는 같을까요? (닮음 활동)
            =================================================== */
         var simSvg = document.getElementById('sim-svg');
         var simAngle = document.getElementById('sim-angle');
@@ -186,7 +244,7 @@
         }
 
         /* ===================================================
-           2. 특수각 표 — 눌러서 값 확인
+           3. 특수각 표 — 눌러서 값 확인
            =================================================== */
         var specialCells = document.querySelectorAll('.special-table td');
         specialCells.forEach(function (cell) {
@@ -206,7 +264,7 @@
         });
 
         /* ===================================================
-           3. 사분원 시각화
+           4. 사분원 시각화
            =================================================== */
         var svg = document.getElementById('trig-svg');
         var range = document.getElementById('trend-range');
@@ -432,7 +490,7 @@
         }
 
         /* ===================================================
-           4. 삼각비의 표 (0°~90°) + 각도 찾기
+           5. 삼각비의 표 (0°~90°) + 각도 찾기
            =================================================== */
         var tbody = document.getElementById('trig-table-body');
         var rows = {};
@@ -502,7 +560,7 @@
         });
 
         /* ===================================================
-           5. 실생활 문제 - 풀이 보기
+           6. 실생활 문제 - 풀이 보기
            =================================================== */
         document.querySelectorAll('.sol-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
