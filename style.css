@@ -182,6 +182,29 @@ h3 { font-size: 1.1rem; color: var(--navy); margin-bottom: 0.75rem; }
     background: #f8fafc; border: 1px dashed var(--line);
     border-radius: 8px; font-size: 0.92rem; color: var(--ink-soft);
 }
+/* 눌러서 펼치는 정리 상자 */
+.tip-collapsible { padding: 0.75rem 1rem; }
+.tip-toggle {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    background: none; border: none; padding: 0; font: inherit;
+    color: var(--primary); font-weight: 700; cursor: pointer;
+}
+.tip-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 2.1rem; height: 2.1rem; border-radius: 50%;
+    background: #fff; border: 1px solid var(--line);
+    font-size: 1.05rem; line-height: 1;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.08);
+    transition: transform 0.2s, background 0.2s;
+}
+.tip-toggle:hover .tip-icon { background: #eff6ff; transform: scale(1.08); }
+.tip-label { font-size: 0.9rem; }
+.tip-body { margin-top: 0.85rem; }
+
+.note.tip-collapsible { padding: 0.75rem 1rem; }
+.note.tip-collapsible .tip-toggle { color: var(--tan); }
+.note.tip-collapsible .tip-toggle:hover .tip-icon { background: #fef2f2; }
+
 .note {
     margin-top: 1.25rem; padding: 0.9rem 1rem;
     background: #fef2f2; border-left: 4px solid var(--tan);
@@ -280,6 +303,51 @@ button { font: inherit; cursor: pointer; }
 .sqrt { display: inline-flex; align-items: center; vertical-align: middle; }
 .sqrt-symbol { font-size: 1.15em; margin-right: -1px; }
 .sqrt-content { border-top: 1.5px solid currentColor; padding: 2px 3px 0; line-height: 1; display: inline-block; }
+
+/* ---------------- 특수각 — 정삼각형 · 정사각형으로 구하기 ---------------- */
+.derive-grid {
+    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 1.5rem; align-items: center;
+    padding: 1.1rem; border: 1px solid var(--line); border-radius: 10px;
+    background: #f8fafc;
+}
+@media (max-width: 780px) { .derive-grid { grid-template-columns: 1fr; gap: 1rem; } }
+
+.derive-fig svg { width: 100%; height: auto; background: #fff; border-radius: 8px; }
+.derive-fig .dl { font-size: 15px; font-weight: 700; fill: var(--ink); }
+.derive-fig .dm { font-size: 15px; font-weight: 700; fill: var(--ink); }
+
+/* 그림 속 각도·변 길이는 단계를 열어야 나타납니다 */
+.fig-hide { opacity: 0; transition: opacity 0.3s; }
+.fig-hide.on { opacity: 1; }
+
+.step-list { margin: 0 0 0 1.15rem; padding: 0; }
+.step-list li { margin-bottom: 0.7rem; font-size: 0.94rem; line-height: 1.9; }
+.derive-hint {
+    margin-top: 0.4rem; padding: 0.6rem 0.8rem; font-size: 0.9rem;
+    background: #eff6ff; border-left: 4px solid var(--primary); border-radius: 8px;
+}
+.tinyline { font-size: 0.85rem; color: #64748b; }
+
+/* 눌러서 확인하는 인라인 값 */
+.peek {
+    position: relative; display: inline-flex;
+    align-items: center; justify-content: center;
+    min-width: 3.4em; min-height: 2em; padding: 0 0.45em; margin: 0 0.15em;
+    border: 1px solid #bfdbfe; border-radius: 7px; background: #fff;
+    font: inherit; font-weight: 700; color: var(--navy);
+    vertical-align: middle; cursor: pointer; transition: background 0.2s;
+}
+.peek:hover { background: #eff6ff; }
+.peek .peek-val { visibility: hidden; opacity: 0; transition: opacity 0.25s, visibility 0.25s; }
+.peek.show .peek-val { visibility: visible; opacity: 1; }
+.peek::after {
+    content: '?'; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--primary); font-weight: 700; transition: opacity 0.25s;
+}
+.peek.show::after { opacity: 0; }
+.peek.show { background: #eff6ff; border-color: var(--primary); }
 
 /* ---------------- 2. 특수각 표 ---------------- */
 .scroll-hint {
@@ -514,20 +582,43 @@ h3.sub {
 .sim-table th.rsin { color: var(--sin); }
 .sim-table th.rcos { color: var(--cos); }
 .sim-table th.rtan { color: var(--tan); }
-.sim-table td.ratio { background: #eff6ff; font-weight: 700; }
+.sim-table td.ratio {
+    background: #eff6ff; font-weight: 700;
+    position: relative; cursor: pointer; min-width: 66px;
+    transition: background 0.2s;
+}
 .sim-table td.ratio.rsin { color: var(--sin); }
 .sim-table td.ratio.rcos { color: var(--cos); }
 .sim-table td.ratio.rtan { color: var(--tan); }
+.sim-table td.ratio:hover { background: #dbeafe; }
+
+/* 비의 값은 눌러서 확인합니다 */
+.sim-table td.ratio .value {
+    visibility: hidden; opacity: 0;
+    transition: opacity 0.25s, visibility 0.25s;
+}
+.sim-table td.ratio.show .value { visibility: visible; opacity: 1; }
+.sim-table td.ratio::after {
+    content: '?';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--primary); font-weight: 700;
+    opacity: 1; transition: opacity 0.25s;
+}
+.sim-table td.ratio.show::after { opacity: 0; }
 .sim-table tbody th { background: #f8fafc; font-size: 0.82rem; white-space: nowrap; }
 .sim-table tr.current th, .sim-table tr.current td { background: #fefce8; }
 .sim-table tr.current td.ratio { background: #dbeafe; }
 .sim-table tr.current th { color: #a16207; font-weight: 700; }
 
+.sim-conc-row { margin-top: 0.9rem; }
 .sim-conclusion {
+    display: none;
     margin-top: 0.9rem; padding: 0.7rem 0.9rem;
     background: #ecfdf5; border-left: 4px solid #16a34a; border-radius: 8px;
     font-size: 0.92rem; font-weight: 600; color: #14532d;
 }
+.sim-conclusion.open { display: block; }
 .sim-foot { font-size: 0.78rem; color: #64748b; margin-top: 0.4rem; text-align: right; }
 
 /* ---------------- 4. 사분원 ---------------- */
@@ -696,8 +787,17 @@ footer { text-align: center; padding: 2rem 1rem; background: var(--navy); color:
     .probe-feedback, .probe-summary { display: block !important; }
     .container { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; margin-bottom: 1rem; page-break-inside: avoid; }
     /* 인쇄물에서는 가려둔 답을 모두 보이게 */
-    .special-table td .value, .trend-item span { visibility: visible !important; opacity: 1 !important; }
-    .special-table td::after, .trend-item::after { display: none !important; }
+    .special-table td .value, .trend-item span,
+    .sim-table td.ratio .value { visibility: visible !important; opacity: 1 !important; }
+    .special-table td::after, .trend-item::after,
+    .sim-table td.ratio::after { display: none !important; }
+    .sim-conclusion { display: block !important; }
+    .tip-body[hidden] { display: block !important; }
+    .peek .peek-val { visibility: visible !important; opacity: 1 !important; }
+    .peek::after { display: none !important; }
+    .fig-hide { opacity: 1 !important; }
+    .peek { border: none !important; background: none !important; min-width: 0 !important; }
+    .tip-toggle { display: none !important; }
     .solution { display: block !important; }
     .trig-table-wrapper { max-height: none; overflow: visible; }
     footer { background: none; color: #000; }

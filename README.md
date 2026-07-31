@@ -3,15 +3,23 @@
 중학교 3학년 「삼각비」 단원 수업용 웹 페이지입니다.
 설치 없이 `index.html`을 브라우저로 열면 바로 사용할 수 있고, **인터넷 연결 없이도 동작**합니다.
 
-## 1. 두 개의 페이지
+## 1. 두 개의 저장소
 
-| 파일 | 용도 | 담긴 활동 |
+| 저장소 | 용도 | 담긴 활동 |
 |---|---|---|
-| `index.html` | **전체 (도입부터 활용까지)** | 1 ~ 9 |
-| `lesson2.html` | **개념 학습만** — 도입 활동(1·2·3)을 뺀 수업용 | 1 ~ 6 (원래의 4 ~ 9) |
+| **trigonometry-guide** (이 저장소) | 전체 — 도입부터 활용까지 | 1 ~ 9 |
+| **trigonometry-concept** | 개념 학습만 — 도입 활동(1·2·3)을 뺀 수업용 | 1 ~ 6 (여기의 4 ~ 9) |
 
-`lesson2.html`은 같은 `style.css` · `script.js`를 씁니다. 내용을 고칠 때는 두 파일을 함께 확인하세요.
+- 개념 학습 저장소 : https://github.com/yunosong1015/trigonometry-concept
+- 개념 학습 페이지 : https://yunosong1015.github.io/trigonometry-concept/
+
 두 페이지의 오른쪽 위 버튼으로 서로 오갈 수 있습니다.
+
+> `style.css`와 `script.js`는 두 저장소가 **같은 내용의 복사본**입니다.
+> 동작이나 디자인을 고칠 때는 양쪽 저장소를 함께 수정해야 합니다.
+>
+> 이 저장소의 `lesson2.html`은 개념 학습 저장소가 생기기 전에 쓰던 파일입니다.
+> 더 필요 없으면 `git rm lesson2.html` 로 지우셔도 됩니다.
 
 ## 2. 구성 (index.html)
 
@@ -94,9 +102,9 @@
 
 ```
 index.html    전체 페이지 (활동 1~9)
-lesson2.html  개념 학습용 (활동 1~6, 도입 3개 제외)
-style.css     스타일 (두 페이지 공용)
-script.js     동작 (두 페이지 공용)
+lesson2.html  (구버전) 개념 학습용 — 별도 저장소로 옮겼습니다
+style.css     스타일
+script.js     동작
 fonts/        D2Coding (숫자·수식용, 로컬)
 사진/         현재 페이지에서 사용하지 않음
 ```

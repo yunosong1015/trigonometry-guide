@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>삼각비 가이드 - 개념 학습</title>
+    <title>세상을 측정하는 도구, 삼각비 - 개념 학습</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,8 +16,8 @@
             </div>
         </div>
         <div class="hero">
-            <h1>삼각비의 뜻과 값</h1>
-            <p>각이 정해지면 변의 비도 정해집니다 — 사인(sin) · 코사인(cos) · 탄젠트(tan)</p>
+            <h1>세상을 측정하는 도구, 삼각비</h1>
+            <p>사인(sin), 코사인(cos), 탄젠트(tan)의 뜻부터 실생활 활용까지</p>
         </div>
     </header>
 
@@ -78,13 +78,21 @@
                                 <tbody id="sim-tbody"></tbody>
                             </table>
                         </div>
+                        <div class="btn-row center sim-conc-row">
+                            <button type="button" class="ghost-btn" id="sim-conc-btn">결론</button>
+                        </div>
                         <p class="sim-conclusion" id="sim-conclusion"></p>
                         <p class="sim-foot">※ 변의 길이는 소수 셋째 자리에서 반올림한 값입니다.</p>
                     </div>
                 </div>
             </div>
 
-            <p class="tip">💡 크기가 다른 세 삼각형은 <b>모두 닮은 도형</b>입니다. 닮은 도형에서는 대응하는 변의 길이의 비가 일정하지요. 그래서 <b>각 A만 같으면 삼각형이 아무리 커지고 작아져도 두 변의 길이의 비는 변하지 않습니다.</b><br>그렇다면 이 세 가지 비는 <b>각 A의 크기만으로 정해지는 값</b>이라는 뜻입니다. 값마다 이름을 붙여 주면 편리하겠지요? → <b>2번 활동에서 이름을 붙여 봅시다.</b></p>
+            <div class="tip tip-collapsible" id="sim-tip" data-closed="정리 보기" data-open="정리 숨기기">
+                <button type="button" class="tip-toggle" aria-expanded="false" aria-controls="sim-tip-body">
+                    <span class="tip-icon">💡</span><span class="tip-label">정리 보기</span>
+                </button>
+                <div class="tip-body" id="sim-tip-body" hidden>크기가 다른 세 삼각형은 <b>모두 닮은 도형</b>입니다. 닮은 도형에서는 대응하는 변의 길이의 비가 일정하지요. 그래서 <b>각 A만 같으면 삼각형이 아무리 커지고 작아져도 두 변의 길이의 비는 변하지 않습니다.</b><br>그렇다면 이 세 가지 비는 <b>각 A의 크기만으로 정해지는 값</b>이라는 뜻입니다. 값마다 이름을 붙여 주면 편리하겠지요? → <b>2번 활동에서 이름을 붙여 봅시다.</b></div>
+            </div>
         </section>
 
         <!-- ============ 2. 정의 ============ -->
@@ -140,7 +148,12 @@
                     </div>
                 </div>
             </div>
-            <p class="tip">💡 색을 따라가 보세요. <span class="hi b">파란색은 높이</span>, <span class="ba b">주황색은 밑변</span>, <span class="hy b">회색은 빗변</span>입니다. 위 1번 표와 아래 4번 그림에서도 같은 색을 씁니다.</p>
+            <div class="tip tip-collapsible" data-closed="색 약속 보기" data-open="색 약속 숨기기">
+                <button type="button" class="tip-toggle" aria-expanded="false" aria-controls="def-tip-body">
+                    <span class="tip-icon">💡</span><span class="tip-label">색 약속 보기</span>
+                </button>
+                <div class="tip-body" id="def-tip-body" hidden>색을 따라가 보세요. <span class="hi b">파란색은 높이</span>, <span class="ba b">주황색은 밑변</span>, <span class="hy b">회색은 빗변</span>입니다. 위 1번 표와 아래 4번 그림에서도 같은 색을 씁니다.</div>
+            </div>
         </section>
 
         <!-- ============ 3. 특수각 ============ -->
@@ -152,7 +165,98 @@
                     <button type="button" class="ghost-btn" id="hide-all">전체 숨기기</button>
                 </div>
             </div>
-            <p class="lead">칸을 눌러 값을 확인해 보세요.</p>
+            <p class="lead">30°·45°·60°의 삼각비는 외우는 것이 아니라 <b>정삼각형과 정사각형에서 직접 구할 수 있습니다.</b> 아래 두 도형에서 변의 길이를 먼저 구한 뒤, 그 값으로 표를 채워 봅시다.</p>
+
+            <h3 class="sub">① 정삼각형으로 30°와 60° 구하기</h3>
+            <div class="derive-grid">
+                <div class="derive-fig">
+                    <svg viewBox="0 0 300 225" role="img" aria-label="한 변의 길이가 2인 정삼각형을 수선으로 반으로 자른 그림. 밑변의 절반은 1, 높이는 루트3입니다.">
+                        <!-- 정삼각형 전체 -->
+                        <polygon points="60,190 240,190 150,34" fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="7 5"/>
+                        <!-- 오른쪽 절반 강조 -->
+                        <polygon points="150,190 240,190 150,34" fill="rgba(37,99,235,0.07)" stroke="none"/>
+                        <line x1="150" y1="190" x2="240" y2="190" stroke="#d97706" stroke-width="4"/>
+                        <line x1="150" y1="190" x2="150" y2="34" stroke="#2563eb" stroke-width="4"/>
+                        <line x1="240" y1="190" x2="150" y2="34" stroke="#475569" stroke-width="4"/>
+                        <!-- 직각 표시 -->
+                        <path d="M 150 176 L 164 176 L 164 190" fill="none" stroke="#475569" stroke-width="2"/>
+                        <!-- 각 표시 -->
+                        <path d="M 240 190 L 208 190 A 32 32 0 0 1 224 162.3 Z" fill="#0f172a" fill-opacity="0.07" stroke="none"/>
+                        <path d="M 208 190 A 32 32 0 0 1 224 162.3" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+                        <path d="M 150 34 L 150 72 A 38 38 0 0 0 169 66.9 Z" fill="#0f172a" fill-opacity="0.07" stroke="none"/>
+                        <path d="M 150 72 A 38 38 0 0 0 169 66.9" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+                        <!-- 라벨 -->
+                        <text x="52" y="205" class="dl">A</text>
+                        <text x="244" y="205" class="dl">B</text>
+                        <text x="150" y="26" class="dl" text-anchor="middle">C</text>
+                        <text x="150" y="205" class="dl" text-anchor="middle">M</text>
+                        <text x="92" y="106" class="dm fig-hide" data-peek="t1" text-anchor="end">2</text>
+                        <text x="203" y="105" class="dm fig-hide" data-peek="t1" fill="#475569">2</text>
+                        <text x="105" y="212" class="dm fig-hide" data-peek="t3" text-anchor="middle">1</text>
+                        <text x="195" y="212" class="dm fig-hide" data-peek="t3" text-anchor="middle" fill="#d97706">1</text>
+                        <g transform="translate(157,118)" class="fig-hide" data-peek="t4">
+                            <path d="M 0 -5 L 3 0 L 6.5 -14 L 18 -14" fill="none" stroke="#2563eb" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                            <text x="12.25" y="-1" class="dm" fill="#2563eb" text-anchor="middle">3</text>
+                        </g>
+                        <text x="197" y="173" class="dm fig-hide" data-peek="t1" text-anchor="middle">60°</text>
+                        <text x="167" y="91" class="dm fig-hide" data-peek="t2" text-anchor="middle">30°</text>
+                    </svg>
+                </div>
+                <div class="derive-steps">
+                    <ol class="step-list">
+                        <li>한 변의 길이가 <b>2</b>인 정삼각형 ABC를 그립니다. 정삼각형의 한 각의 크기는
+                            <button type="button" class="peek" data-fig="t1"><span class="peek-val">60°</span></button> 입니다.</li>
+                        <li>꼭짓점 C에서 밑변에 수선 CM을 그으면, ∠ACB가 반으로 나뉘어 ∠MCB =
+                            <button type="button" class="peek" data-fig="t2"><span class="peek-val">30°</span></button> 가 됩니다.</li>
+                        <li>수선은 밑변도 반으로 나누므로 <span class="ba b">MB</span> =
+                            <button type="button" class="peek" data-fig="t3"><span class="peek-val">1</span></button> 입니다.</li>
+                        <li>피타고라스 정리로 <span class="hi b">CM</span> = <span class="sqrt"><span class="sqrt-symbol">&#8730;</span><span class="sqrt-content">2² − 1²</span></span> =
+                            <button type="button" class="peek" data-fig="t4"><span class="peek-val"><span class="sqrt"><span class="sqrt-symbol">√</span><span class="sqrt-content">3</span></span></span></button> 입니다.</li>
+                    </ol>
+                    <p class="derive-hint">→ 이제 직각삼각형 CMB에서 <b>∠B = 60°</b>, <b>∠MCB = 30°</b>에 대한 삼각비를 모두 구할 수 있습니다.</p>
+                </div>
+            </div>
+
+            <h3 class="sub">② 정사각형으로 45° 구하기</h3>
+            <div class="derive-grid">
+                <div class="derive-fig">
+                    <svg viewBox="0 0 280 225" role="img" aria-label="한 변의 길이가 1인 정사각형에 대각선을 그은 그림. 대각선의 길이는 루트2입니다.">
+                        <polygon points="60,195 210,195 210,45 60,45" fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="7 5"/>
+                        <polygon points="60,195 210,195 210,45" fill="rgba(37,99,235,0.07)" stroke="none"/>
+                        <line x1="60" y1="195" x2="210" y2="195" stroke="#d97706" stroke-width="4"/>
+                        <line x1="210" y1="195" x2="210" y2="45" stroke="#2563eb" stroke-width="4"/>
+                        <line x1="210" y1="45" x2="60" y2="195" stroke="#475569" stroke-width="4"/>
+                        <path d="M 196 195 L 196 181 L 210 181" fill="none" stroke="#475569" stroke-width="2"/>
+                        <path d="M 60 195 L 94 195 A 34 34 0 0 0 84 171 Z" fill="#0f172a" fill-opacity="0.07" stroke="none"/>
+                        <path d="M 94 195 A 34 34 0 0 0 84 171" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+                        <text x="52" y="210" class="dl">A</text>
+                        <text x="214" y="210" class="dl">B</text>
+                        <text x="214" y="40" class="dl">C</text>
+                        <text x="52" y="40" class="dl">D</text>
+                        <text x="135" y="215" class="dm fig-hide" data-peek="s1" text-anchor="middle" fill="#d97706">1</text>
+                        <text x="220" y="125" class="dm fig-hide" data-peek="s1" fill="#2563eb">1</text>
+                        <g transform="translate(103,108)" class="fig-hide" data-peek="s2">
+                            <path d="M 0 -5 L 3 0 L 6.5 -14 L 18 -14" fill="none" stroke="#475569" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                            <text x="12.25" y="-1" class="dm" fill="#475569" text-anchor="middle">2</text>
+                        </g>
+                        <text x="110" y="180" class="dm fig-hide" data-peek="s1" text-anchor="middle">45°</text>
+                    </svg>
+                </div>
+                <div class="derive-steps">
+                    <ol class="step-list">
+                        <li>한 변의 길이가 <b>1</b>인 정사각형 ABCD를 그리고 대각선 AC를 긋습니다.</li>
+                        <li>대각선은 직각을 반으로 나누므로 ∠CAB =
+                            <button type="button" class="peek" data-fig="s1"><span class="peek-val">45°</span></button> 입니다.</li>
+                        <li>피타고라스 정리로 <span class="hy b">AC</span> = <span class="sqrt"><span class="sqrt-symbol">&#8730;</span><span class="sqrt-content">1² + 1²</span></span> =
+                            <button type="button" class="peek" data-fig="s2"><span class="peek-val"><span class="sqrt"><span class="sqrt-symbol">√</span><span class="sqrt-content">2</span></span></span></button> 입니다.</li>
+                    </ol>
+                    <p class="derive-hint">→ 이제 직각삼각형 ABC에서 <b>∠A = 45°</b>에 대한 삼각비를 구할 수 있습니다.</p>
+                </div>
+            </div>
+
+            <h3 class="sub">③ 구한 값으로 표를 채워 봅시다</h3>
+            <p class="lead">위 두 도형을 보면서 각 칸의 값을 생각해 본 뒤, 칸을 눌러 확인하세요.<br>
+            <span class="tinyline">0°와 90°의 값은 「사분원에서 보는 삼각비」 활동에서 확인할 수 있습니다.</span></p>
             <p class="scroll-hint" aria-hidden="true">← 표를 옆으로 밀 수 있어요 →</p>
             <div class="table-wrapper">
                 <table class="special-table">
@@ -194,7 +298,12 @@
                     </tbody>
                 </table>
             </div>
-            <p class="note"><b>주의</b> — tan 90°는 값이 <b>무한대(∞)</b>인 것이 아니라, <b>정할 수 없습니다</b>. 90°에서는 밑변의 길이가 0이 되어 나눗셈을 할 수 없기 때문입니다.</p>
+            <div class="note tip-collapsible" data-closed="주의할 점 보기" data-open="주의할 점 숨기기">
+                <button type="button" class="tip-toggle" aria-expanded="false" aria-controls="note-body">
+                    <span class="tip-icon">⚠</span><span class="tip-label">주의할 점 보기</span>
+                </button>
+                <div class="tip-body" id="note-body" hidden><b>주의</b> — tan 90°는 값이 <b>무한대(∞)</b>인 것이 아니라, <b>정할 수 없습니다</b>. 90°에서는 밑변의 길이가 0이 되어 나눗셈을 할 수 없기 때문입니다.</div>
+            </div>
         </section>
 
         <!-- ============ 4. 사분원 ============ -->

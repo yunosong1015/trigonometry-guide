@@ -336,7 +336,12 @@
         var simSizeOut = document.getElementById('sim-size-out');
         var simBody = document.getElementById('sim-tbody');
         var simConc = document.getElementById('sim-conclusion');
+        var simConcBtn = document.getElementById('sim-conc-btn');
         var simChips = document.querySelectorAll('#similar .sim-chip');
+
+        /* 표 안의 비 값은 눌러야 보입니다 — 슬라이더를 움직여도 상태가 유지됩니다 */
+        var simShown = {};
+        var simConcOpen = false;
 
         var SIM = { S: 37, CMAX: 12, OX: 70, OY: 520, GHOST: [5, 10] };
 
@@ -436,7 +441,7 @@
                 { name: '큰 삼각형', c: SIM.GHOST[1], cur: false }
             ];
             simBody.innerHTML = '';
-            rowsDef.forEach(function (r) {
+            rowsDef.forEach(function (r, ri) {
                 var tr = document.createElement('tr');
                 if (r.cur) tr.className = 'current';
                 var th = document.createElement('th');
@@ -448,9 +453,24 @@
                 });
                 /* 비는 각 A만으로 정해지므로 세 줄이 모두 같은 값이 됩니다 */
                 [['rsin', sn], ['rcos', cs], ['rtan', tn]].forEach(function (pair) {
+                    var key = ri + '-' + pair[0];
                     var td = document.createElement('td');
-                    td.className = 'ratio ' + pair[0];
-                    td.textContent = pair[1].toFixed(4);
+                    td.className = 'ratio ' + pair[0] + (simShown[key] ? ' show' : '');
+                    td.tabIndex = 0;
+                    td.setAttribute('role', 'button');
+                    td.setAttribute('aria-label', '비의 값 보기');
+                    var sp = document.createElement('span');
+                    sp.className = 'value';
+                    sp.textContent = pair[1].toFixed(4);
+                    td.appendChild(sp);
+                    function flip() {
+                        simShown[key] = !simShown[key];
+                        td.classList.toggle('show', !!simShown[key]);
+                    }
+                    td.addEventListener('click', flip);
+                    td.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); }
+                    });
                     tr.appendChild(td);
                 });
                 simBody.appendChild(tr);
@@ -459,10 +479,19 @@
             if (simConc) {
                 simConc.innerHTML = '✅ 세 변의 길이는 모두 다르지만, 각 A = ' + deg + '°인 한 ' +
                     '<b>a÷c, b÷c, a÷b 의 값은 세 삼각형이 똑같습니다.</b>';
+                simConc.classList.toggle('open', simConcOpen);
             }
 
             simChips.forEach(function (ch) {
                 ch.classList.toggle('active', parseInt(ch.dataset.angle, 10) === deg);
+            });
+        }
+
+        if (simConcBtn) {
+            simConcBtn.addEventListener('click', function () {
+                simConcOpen = !simConcOpen;
+                simConcBtn.textContent = simConcOpen ? '결론 숨기기' : '결론';
+                if (simConc) simConc.classList.toggle('open', simConcOpen);
             });
         }
 
@@ -489,13 +518,35 @@
                 if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
             });
         });
+        /* 정삼각형 · 정사각형에서 구하는 인라인 값 (눌러서 확인) */
+        var peeks = document.querySelectorAll('.peek');
+
+        /* 값을 열면 그림 속 각도·변 길이도 함께 나타납니다 */
+        function syncFigure(b) {
+            var key = b.dataset.fig;
+            if (!key) return;
+            var on = b.classList.contains('show');
+            document.querySelectorAll('[data-peek="' + key + '"]').forEach(function (n) {
+                n.classList.toggle('on', on);
+            });
+        }
+        peeks.forEach(function (b) {
+            b.addEventListener('click', function () {
+                b.classList.toggle('show');
+                syncFigure(b);
+            });
+            syncFigure(b);
+        });
+
         var revealAll = document.getElementById('reveal-all');
         var hideAll = document.getElementById('hide-all');
         if (revealAll) revealAll.addEventListener('click', function () {
             specialCells.forEach(function (c) { c.classList.add('show'); });
+            peeks.forEach(function (b) { b.classList.add('show'); syncFigure(b); });
         });
         if (hideAll) hideAll.addEventListener('click', function () {
             specialCells.forEach(function (c) { c.classList.remove('show'); });
+            peeks.forEach(function (b) { b.classList.remove('show'); syncFigure(b); });
         });
 
         /* ===================================================
@@ -894,7 +945,27 @@
         showSection(window.location.hash.slice(1) || (sections[0] && sections[0].id), false);
 
         /* ===================================================
-           9. 실생활 문제 - 풀이 보기
+           9. 접히는 상자 (정리 · 색 약속 · 주의)
+           =================================================== */
+        document.querySelectorAll('.tip-collapsible').forEach(function (box) {
+            var btn = box.querySelector('.tip-toggle');
+            var body = box.querySelector('.tip-body');
+            var label = box.querySelector('.tip-label');
+            if (!btn || !body) return;
+            btn.addEventListener('click', function () {
+                var willOpen = body.hidden;
+                body.hidden = !willOpen;
+                btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+                if (label) {
+                    label.textContent = willOpen
+                        ? (box.dataset.open || '숨기기')
+                        : (box.dataset.closed || '보기');
+                }
+            });
+        });
+
+        /* ===================================================
+           10. 실생활 문제 - 풀이 보기
            =================================================== */
         document.querySelectorAll('.sol-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
